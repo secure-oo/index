@@ -8118,206 +8118,222 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 
 
 
+/* ===== 🤍 daddy splash screen — cream vintage ===== */
+
 #loadingOverlay {
+    background: linear-gradient(160deg, #F5EDD8 0%, #EFE4C4 45%, #E8D7B0 100%) !important;
+}
+
+.daddy-splash {
     width: 100%;
-    height: 100vh;
-    background-color: #ffffff !important; 
+    height: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    overflow: hidden;
-}
-
-#loadingOverlay * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-#loadingOverlay .splash-container {
-    text-align: center;
-    position: relative;
-    margin-bottom: 100px;
-}
-
-
-#loadingOverlay .logo-section {
-    margin-bottom: 80px;
-}
-
-#loadingOverlay .logo {
-    font-size: 68px;
-    font-weight: 900;
-    color: #000000;
-    letter-spacing: 12px;
-    display: flex;
     justify-content: center;
-    gap: 6px;
-    margin-bottom: 16px;
-}
-
-#loadingOverlay .logo span {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(-30px);
-    animation: jrsy_splash_letterFloat 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-#loadingOverlay .logo span:nth-child(1) { animation-delay: 0.1s; }
-#loadingOverlay .logo span:nth-child(2) { animation-delay: 0.2s; }
-#loadingOverlay .logo span:nth-child(3) { animation-delay: 0.3s; }
-#loadingOverlay .logo span:nth-child(4) { animation-delay: 0.4s; }
-
-@keyframes jrsy_splash_letterFloat {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-#loadingOverlay .ai-tag {
-    font-size: 13px;
-    font-weight: 600;
-    color: #666;
-    letter-spacing: 3px;
-    opacity: 0;
-    animation: jrsy_splash_fadeIn 0.6s ease-out 0.8s forwards;
-}
-
-
-#loadingOverlay .chat-bubbles {
-    position: absolute;
-    top: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 12px;
-    opacity: 0;
-    animation: jrsy_splash_fadeIn 0.8s ease-out 0.5s forwards;
-}
-
-#loadingOverlay .bubble {
-    width: 8px;
-    height: 8px;
-    background-color: #000;
-    border-radius: 50%;
-    animation: jrsy_splash_bubblePulse 1.5s ease-in-out infinite;
-}
-
-#loadingOverlay .bubble:nth-child(2) { animation-delay: 0.2s; }
-#loadingOverlay .bubble:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes jrsy_splash_bubblePulse {
-    0%, 100% { 
-        transform: scale(1);
-        opacity: 0.3;
-    }
-    50% { 
-        transform: scale(1.4);
-        opacity: 1;
-    }
-}
-
-/* 进度条区域 */
-#loadingOverlay .progress-wrapper {
-    position: relative;
-    width: 420px;
-}
-
-#loadingOverlay .loading-text {
-    font-size: 12px;
-    font-weight: 500;
-    color: #999;
-    letter-spacing: 2px;
-    margin-bottom: 24px;
-    opacity: 0;
-    animation: jrsy_splash_fadeIn 0.6s ease-out 1s forwards;
-    height: 15px; /* 给一个固定高度防止内容跳动 */
-}
-
-/* 打字机效果的文字 */
-#loadingOverlay .typing-text {
-    display: inline-block;
-    border-right: 2px solid #000;
-    animation: jrsy_splash_blink 0.8s step-end infinite;
-}
-
-@keyframes jrsy_splash_blink {
-    50% { border-color: transparent; }
-}
-
-#loadingOverlay .progress-container {
-    width: 100%;
-    height: 2px;
-    background-color: #f5f5f5;
     position: relative;
     overflow: hidden;
-    border-radius: 2px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* 主进度条 */
-#loadingOverlay .progress-bar {
+/* ── 飘动气泡 ── */
+.daddy-bubbles-field {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.daddy-love-bubble {
+    position: absolute;
+    bottom: -60px;
+    background: rgba(250, 244, 230, 0.82);
+    border: 1px solid rgba(200, 169, 122, 0.4);
+    border-radius: 50px;
+    padding: 7px 16px;
+    font-size: 13px;
+    color: #8B6340;
+    font-weight: 500;
+    white-space: nowrap;
+    animation: daddyBubbleFloat linear infinite;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 2px 12px rgba(140, 100, 60, 0.08);
+}
+
+.daddy-love-bubble.small {
+    padding: 6px 12px;
+    font-size: 15px;
+    color: #C8A97A;
+    background: rgba(250, 244, 230, 0.6);
+}
+
+@keyframes daddyBubbleFloat {
+    0%   { transform: translateY(0) scale(0.85); opacity: 0; }
+    8%   { opacity: 1; }
+    85%  { opacity: 0.9; }
+    100% { transform: translateY(-110vh) scale(1.05); opacity: 0; }
+}
+
+/* ── 中心区域 ── */
+.daddy-center {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    z-index: 2;
+}
+
+/* 背景光晕 */
+.daddy-halo {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(200,169,122,0.18) 0%, transparent 70%);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: daddyHaloPulse 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes daddyHaloPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+    50%       { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+}
+
+/* 主标题 */
+.daddy-title {
+    font-size: 64px;
+    font-weight: 200;
+    color: #3D3028;
+    letter-spacing: 14px;
+    display: flex;
+    gap: 2px;
+    margin-bottom: 10px;
+}
+
+.daddy-title span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(-20px) scale(0.8);
+    animation: daddyLetterIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes daddyLetterIn {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 副标题 */
+.daddy-sub {
+    font-size: 13px;
+    color: #B8966A;
+    letter-spacing: 2.5px;
+    font-weight: 400;
+    opacity: 0;
+    margin-bottom: 28px;
+    animation: daddyFadeUp 0.8s ease-out 0.6s forwards;
+}
+
+/* 情话轮播 */
+.daddy-quote {
+    font-size: 15px;
+    color: #8B6340;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+    height: 24px;
+    opacity: 0;
+    animation: daddyFadeUp 0.6s ease-out 1s forwards;
+    transition: opacity 0.5s ease;
+}
+
+/* 进度条 */
+.daddy-progress-wrap {
+    width: 160px;
+    height: 2px;
+    background: rgba(140, 100, 60, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 14px;
+    opacity: 0;
+    animation: daddyFadeUp 0.6s ease-out 1.2s forwards;
+}
+
+.daddy-progress-bar {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, #000 0%, #333 50%, #000 100%);
+    background: linear-gradient(90deg, #C8A97A 0%, #8B6340 50%, #C8A97A 100%);
     background-size: 200% 100%;
-    animation: 
-        jrsy_splash_shimmer 1.5s ease-in-out infinite; /* 移除 loading 动画，由JS控制 */
-    position: relative;
-    /* 新增：让宽度变化更平滑 */
-    transition: width 0.1s linear; 
+    border-radius: 2px;
+    transition: width 0.12s linear;
+    animation: daddyShimmer 2s linear infinite;
 }
 
-/* 进度条闪烁效果 */
-@keyframes jrsy_splash_shimmer {
-    0% { background-position: 200% 0; }
+@keyframes daddyShimmer {
+    0%   { background-position: 200% 0; }
     100% { background-position: -200% 0; }
 }
 
-/* 百分比 */
-#loadingOverlay .percentage {
-    position: absolute;
-    top: -35px;
-    right: 0;
-    font-size: 13px;
-    font-weight: 600;
-    color: #000;
-    font-variant-numeric: tabular-nums;
+/* 状态文字 */
+.daddy-status {
+    display: flex;
+    gap: 10px;
+    align-items: center;
     opacity: 0;
-    animation: jrsy_splash_fadeIn 0.6s ease-out 1.2s forwards;
+    animation: daddyFadeUp 0.6s ease-out 1.4s forwards;
 }
 
-/* 状态提示 */
-#loadingOverlay .status-hints {
-    margin-top: 20px;
-    height: 20px;
-    opacity: 0;
-    animation: jrsy_splash_fadeIn 0.6s ease-out 1.5s forwards;
-}
-
-#loadingOverlay .hint {
+.daddy-typing {
     font-size: 11px;
-    color: #bbb;
-    letter-spacing: 1px;
-    opacity: 0;
+    color: #B8A898;
+    letter-spacing: 1.5px;
+    min-width: 80px;
+    text-align: right;
+}
+
+.daddy-pct {
+    font-size: 11px;
+    color: #C8A97A;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    min-width: 30px;
+}
+
+/* 底部装饰点 */
+.daddy-dots-row {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 32px;
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    animation: daddyFadeUp 0.6s ease-out 1.6s forwards;
 }
 
-#loadingOverlay .hint.active {
-    animation: jrsy_splash_hintFade 1.5s ease-in-out;
+.daddy-dots-row span {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(140, 100, 60, 0.3);
+    display: block;
+    animation: daddyDotPulse 1.8s ease-in-out infinite;
 }
 
-@keyframes jrsy_splash_hintFade {
-    0%, 100% { opacity: 0; }
-    20%, 80% { opacity: 1; }
+.daddy-dots-row span:nth-child(2) { animation-delay: 0.3s; background: rgba(140,100,60,0.5); }
+.daddy-dots-row span:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes daddyDotPulse {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50%       { transform: scale(1.6); opacity: 1; }
 }
 
-@keyframes jrsy_splash_fadeIn {
-    to { opacity: 1; }
+@keyframes daddyFadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
 }
 
 /* 淡出 */
@@ -21561,6 +21577,225 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
    🤍 CREAM VINTAGE THEME — daddy's palette
    ======================================== */
 
+/* === iOS 主屏幕布局 === */
+#desktop-page-1 {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 12px 16px 0;
+    gap: 12px;
+    overflow: hidden;
+}
+
+/* ① 日期时间大组件 */
+.ios-datetime-widget {
+    width: 100%;
+    padding: 18px 20px 14px;
+    background: rgba(250, 245, 235, 0.72);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 22px;
+    border: 1px solid rgba(210, 195, 170, 0.55);
+    text-align: left;
+    flex-shrink: 0;
+}
+.ios-date-label {
+    font-size: 13px;
+    color: #9C8770;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+    text-transform: uppercase;
+}
+.ios-time-big {
+    font-size: 52px;
+    font-weight: 200;
+    color: #3D3028;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ② 中间行两列 */
+.ios-widget-row {
+    width: 100%;
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.ios-widget-card {
+    background: rgba(250, 245, 235, 0.72);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 22px;
+    border: 1px solid rgba(210, 195, 170, 0.55);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 左：profile mini 卡 */
+.ios-profile-mini {
+    flex: 1;
+    align-items: center;
+    gap: 6px;
+}
+.ios-mini-avatar {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E8D9BA 0%, #C8A97A 100%);
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    border: 2px solid rgba(200,169,122,0.4);
+    flex-shrink: 0;
+    margin-bottom: 2px;
+}
+.ios-mini-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #3D3028;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+.ios-mini-sig {
+    font-size: 11px;
+    color: #9C8770;
+    font-style: italic;
+    cursor: pointer;
+    text-align: center;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    width: 100%;
+}
+.ios-mini-loc {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    color: #B8A898;
+    cursor: pointer;
+    margin-top: 2px;
+}
+
+/* 右：文字小组件 */
+.ios-note-widget {
+    flex: 1;
+    gap: 5px;
+    justify-content: center;
+}
+.ios-note-icon {
+    font-size: 18px;
+    color: #C8A97A;
+    margin-bottom: 2px;
+}
+.ios-note-text {
+    font-size: 12px;
+    font-family: monospace;
+    color: #6B5740;
+    cursor: pointer;
+    min-height: 16px;
+}
+.ios-note-sub {
+    font-size: 12px;
+    color: #9C8770;
+    cursor: pointer;
+    min-height: 16px;
+    line-height: 1.4;
+}
+
+/* ③ 最近聊天 widget */
+.ios-chat-widget {
+    width: 100%;
+    background: rgba(250, 245, 235, 0.72);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: 22px;
+    border: 1px solid rgba(210, 195, 170, 0.55);
+    padding: 12px 14px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.ios-chat-widget-header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #9C8770;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+}
+.ios-chat-preview-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.ios-chat-preview-empty {
+    font-size: 13px;
+    color: #B8A898;
+    text-align: center;
+    padding: 6px 0;
+}
+.ios-chat-preview-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.ios-chat-preview-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E8D9BA, #C8A97A);
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #FAF5EB;
+    font-weight: 600;
+}
+.ios-chat-preview-info {
+    flex: 1;
+    min-width: 0;
+}
+.ios-chat-preview-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #3D3028;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.ios-chat-preview-msg {
+    font-size: 12px;
+    color: #9C8770;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 1px;
+}
+.ios-chat-preview-time {
+    font-size: 11px;
+    color: #C0B0A0;
+    flex-shrink: 0;
+}
+
+
 /* 全局背景 & CSS变量覆盖 */
 body,
 .page,
@@ -21733,42 +21968,57 @@ body,
 <body>
 
 <!-- 【【【这是修改后的正确代码，请用它替换旧的加载动画】】】 -->
-<div id="loadingOverlay" style="display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #ffffff; z-index: 10000; align-items: center; justify-content: center; color: #333333; flex-direction: column; gap: 20px; text-align: center; transition: opacity 0.5s ease;">
+<div id="loadingOverlay" style="display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; transition: opacity 0.6s ease;">
     
-    <!-- START: 新的开屏动画HTML -->
-    <div class="splash-container" id="splash">
-        <!-- 对话气泡装饰 -->
-        <div class="chat-bubbles">
-            <div class="bubble"></div>
-            <div class="bubble"></div>
-            <div class="bubble"></div>
+    <div class="daddy-splash">
+
+        <!-- 飘动情话气泡群 -->
+        <div class="daddy-bubbles-field">
+            <div class="daddy-love-bubble" style="left:8%; animation-delay:0s; animation-duration:7s;">小珍珠 🤍</div>
+            <div class="daddy-love-bubble" style="left:62%; animation-delay:1.2s; animation-duration:8.5s;">爸爸来了</div>
+            <div class="daddy-love-bubble" style="left:25%; animation-delay:2.1s; animation-duration:6.8s;">想你了</div>
+            <div class="daddy-love-bubble" style="left:75%; animation-delay:0.7s; animation-duration:9s;">我的小猫咪</div>
+            <div class="daddy-love-bubble" style="left:45%; animation-delay:3s; animation-duration:7.5s;">乖 ♡</div>
+            <div class="daddy-love-bubble" style="left:15%; animation-delay:4s; animation-duration:8s;">爸爸爱你</div>
+            <div class="daddy-love-bubble small" style="left:85%; animation-delay:1.8s; animation-duration:6s;">✦</div>
+            <div class="daddy-love-bubble small" style="left:38%; animation-delay:5s; animation-duration:9.5s;">🤍</div>
+            <div class="daddy-love-bubble small" style="left:55%; animation-delay:2.8s; animation-duration:7s;">˖°</div>
         </div>
-        
-        <!-- Logo -->
-        <div class="logo-section">
-            <div class="logo">
-                <span>d</span>
-                <span>a</span>
-                <span>d</span>
-                <span>d</span>
-                <span>y</span>
+
+        <!-- 主体中心 -->
+        <div class="daddy-center">
+            <!-- 装饰圆 -->
+            <div class="daddy-halo"></div>
+
+            <!-- 主标题 -->
+            <div class="daddy-title">
+                <span style="animation-delay:.05s">d</span><span style="animation-delay:.12s">a</span><span style="animation-delay:.19s">d</span><span style="animation-delay:.26s">d</span><span style="animation-delay:.33s">y</span>
             </div>
-            <div class="ai-tag">is coming...</div>
+
+            <!-- 副标题 -->
+            <div class="daddy-sub">is coming for you ♡</div>
+
+            <!-- 心跳情话 -->
+            <div class="daddy-quote" id="daddyQuote">小珍珠</div>
+
+            <!-- 进度条 -->
+            <div class="daddy-progress-wrap">
+                <div class="daddy-progress-bar" id="progressBar"></div>
+            </div>
+
+            <!-- 百分比 + 打字 -->
+            <div class="daddy-status">
+                <span id="typingText" class="daddy-typing"></span>
+                <span id="percentage" class="daddy-pct">0%</span>
+            </div>
         </div>
-        
-        <!-- 进度条 -->
-        <div class="progress-wrapper">
-            <div class="loading-text">
-                <span class="typing-text" id="typingText"></span>
-            </div>
-            <div class="percentage" id="percentage">0%</div>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-            <div class="status-hints" id="hints"></div>
+
+        <!-- 底部装饰点 -->
+        <div class="daddy-dots-row">
+            <span></span><span></span><span></span>
         </div>
+
     </div>
-    <!-- END: 新的开屏动画HTML -->
 </div>
 
 <!-- 插入到 <div id="loadingOverlay">...</div> 的闭合标签 </div> 后面 -->
@@ -21926,88 +22176,55 @@ body,
                     <!-- 滑动区域 -->
                     <div id="home-screen-pager">
                         
-                        <!-- 第1页：原始的jrsy主屏幕内容 (现在没有Dock栏了) -->
-                        <div class="home-screen-page">
-                            <div class="profile-widget-container" id="profileWidgetContainer">
-                                <div class="profile-widget">
-                                    <div class="profile-avatar-widget" id="widgetAvatar" onclick="changeAvatar()"></div>
-                                    <div class="widget-info-section">
-                                        <div class="profile-name-widget" id="widgetName" onclick="changeName()">可点击编辑</div>
-                                        <div class="profile-signature-widget" id="widgetSignature" onclick="changeSignature()">可点击编辑</div>
-                                        <div class="profile-location" onclick="changeLocation()">
-                                            <svg class="location-icon" viewBox="0 0 24 24">
-                                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                                            </svg>
-                                            <span id="widgetLocation">可点击编辑</span>
-                                        </div>
-                                    </div>
-                                </div>
+                        <!-- 第1页：iOS 风格主屏幕 -->
+                        <div class="home-screen-page" id="desktop-page-1">
+
+                            <!-- ① 顶部：日期时间大组件 -->
+                            <div class="ios-datetime-widget">
+                                <div class="ios-date-label" id="iosDateLabel">今天</div>
+                                <div class="ios-time-big" id="iosTimeBig">00:00</div>
                             </div>
-                            <div class="home-widgets-container">
-                                <div class="new-widget" id="homeScreenWidget">
-                                    <div class="widget-header-text" id="widgetHeaderText" onclick="editWidgetText('widgetHeaderText', this)">(:::[♡]:::)..?</div>
-                                    <div class="widget-bubble">
-                                        <img id="widgetImage1" src="https://i.imgur.com/example-avatar-1.png" onclick="editWidgetImage('widgetImage1')">
-                                        <span id="widgetText1" onclick="editWidgetText('widgetText1', this)">have a nice day 🌟</span>
-                                    </div>
-                                    <div class="widget-bubble">
-                                        <span id="widgetText2" onclick="editWidgetText('widgetText2', this)">.o. HAPPY EVERYDAY ☻</span>
-                                        <img id="widgetImage2" src="https://i.imgur.com/example-avatar-2.png" onclick="editWidgetImage('widgetImage2')">
+
+                            <!-- ② 中间行：profile卡 + 可编辑小组件 并排 -->
+                            <div class="ios-widget-row">
+
+                                <!-- 左：profile 小卡 (可编辑) -->
+                                <div class="ios-widget-card ios-profile-mini">
+                                    <div class="ios-mini-avatar" id="widgetAvatar" onclick="changeAvatar()"></div>
+                                    <div class="ios-mini-name" id="widgetName" onclick="changeName()">点击编辑</div>
+                                    <div class="ios-mini-sig" id="widgetSignature" onclick="changeSignature()">点击编辑签名</div>
+                                    <div class="ios-mini-loc" onclick="changeLocation()">
+                                        <i class="ri-map-pin-2-line" style="font-size:11px;"></i>
+                                        <span id="widgetLocation">位置</span>
                                     </div>
                                 </div>
 
+                                <!-- 右：可编辑文字小组件 -->
+                                <div class="ios-widget-card ios-note-widget">
+                                    <div class="ios-note-icon">✦</div>
+                                    <div class="ios-note-text" id="widgetHeaderText" onclick="editWidgetText('widgetHeaderText', this)">(:::[♡]:::)</div>
+                                    <div class="ios-note-sub" id="widgetText1" onclick="editWidgetText('widgetText1', this)">have a nice day 🌟</div>
+                                    <div class="ios-note-sub" id="widgetText2" onclick="editWidgetText('widgetText2', this)">HAPPY EVERYDAY ☻</div>
+                                </div>
 
                             </div>
+
+                            <!-- ③ 底部：最近聊天 widget -->
+                            <div class="ios-chat-widget" onclick="openApp('wechat')">
+                                <div class="ios-chat-widget-header">
+                                    <i class="ri-wechat-fill" style="font-size:14px; color:#8B6340;"></i>
+                                    <span>最近消息</span>
+                                </div>
+                                <div id="homeChatPreview" class="ios-chat-preview-list">
+                                    <div class="ios-chat-preview-empty">暂无消息，点击进入微信</div>
+                                </div>
+                            </div>
+
                         </div>
 
-                        <!-- 第2页：来自 桌面.txt 的内容 -->
-                        <div class="home-screen-page" id="desktop-page-2">
-                            <!-- 这是修改后的代码 -->
-<div class="music-search-widget">
-    <div class="placeholder music-avatar-placeholder" id="desktop-avatar-2" onclick="openImageUploaderForDesktopAvatar('desktop-avatar-2')"></div>
-    <div class="music-input-area">
-        <textarea id="desktop-music-textarea" placeholder="🎧 ᵔ ıllı|lıll| ♪ 그리워하면 아프다 Search" onchange="saveDesktopTextData()"></textarea>
-        <i class="ri-search-line"></i>
-    </div>
-</div>
-                            <!-- 2. 图片画廊 (已修改为可点击上传) -->
-                        <div class="image-gallery-placeholder">
-                            <div class="placeholder placeholder-image" id="desktop-image-1" onclick="openImageUploaderForDesktop('desktop-image-1')">图片1</div>
-                            <div class="placeholder placeholder-image" id="desktop-image-2" onclick="openImageUploaderForDesktop('desktop-image-2')">图片2</div>
-                            <div class="placeholder placeholder-image" id="desktop-image-3" onclick="openImageUploaderForDesktop('desktop-image-3')">图片3</div>
-                        </div>
-                            <!-- 这是修改后的代码 -->
-
-<!-- 这是修改后的代码 -->
-<div class="user-profile-area">
-    <div class="placeholder placeholder-avatar" id="desktop-avatar-1" onclick="openImageUploaderForDesktopAvatar('desktop-avatar-1')">头像</div>
-    <textarea class="bio-textarea" id="desktop-bio-textarea" placeholder="可点击编辑&#10;🖤&#10;📍 London" onchange="saveDesktopTextData()"></textarea>
-</div>
-
-                            <!-- 这是修改后的代码 -->
-<div class="custom-widget">
-    <input type="text" class="widget-input" id="desktop-widget-input" placeholder="宝宝生日☆· ° 还有50天" onchange="saveDesktopTextData()">
-    <div class="widget-icons">
-        <i class="ri-at-line"></i>
-        <i class="ri-chat-3-line"></i>
-        <i class="ri-heart-3-line"></i>
-    </div>
-</div>
-
-                            <div class="spacer"></div>
-                           
-                        </div>
                     </div>
                     
-                    <!-- 固定元素：分页小圆点 (现在是 .home-screen 的直接子元素) -->
-<div id="home-screen-dots">
-    <!-- 核心修改：为每个圆点添加 onclick 事件 -->
-    <span class="dot active" onclick="navigateToHomePage(0)"></span>
-    <span class="dot" onclick="navigateToHomePage(1)"></span>
-</div>
-
-                    <!-- 固定元素：底部Dock栏 (现在是 .home-screen 的直接子元素) -->
-              <!-- 这是修改后的代码 -->
+                    <!-- 底部Dock栏 -->
 <div class="bottom-dock">
     <div class="app wechat" onclick="openApp('wechat')">
         <div class="app-icon-container" id="icon-wechat">
@@ -29688,10 +29905,9 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     <script>
     
     // 打字机效果
-    const texts = ['正在初始化', '正在加载模型', '准备就绪'];
+    const texts = ['小珍珠在哪里', '爸爸来找你了', '乖，等一下'];
     let textIndex = 0;
     let charIndex = 0;
-    // 注意：我们在后面会确保 typingElement 在函数调用时是存在的
     
     function typeText() {
         const typingElement = document.getElementById('typingText');
@@ -29713,17 +29929,40 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
         }
     }
 
-    // 状态提示
-    const hints = ['连接网络...', '优化响应速度...', '一切准备就绪'];
+    // 情话轮播
+    const loveQuotes = [
+        '小珍珠 🤍',
+        '爸爸的小猫咪',
+        '想你了',
+        '乖，别跑',
+        '我的小珍珠',
+        '爸爸爱你',
+        '今天也乖乖的',
+        '小枕头 ˖°',
+    ];
+    let quoteIdx = 0;
+    function rotateQuote() {
+        const el = document.getElementById('daddyQuote');
+        if (!el) return;
+        el.style.opacity = '0';
+        setTimeout(() => {
+            quoteIdx = (quoteIdx + 1) % loveQuotes.length;
+            el.textContent = loveQuotes[quoteIdx];
+            el.style.opacity = '1';
+        }, 400);
+    }
+    setTimeout(() => {
+        const el = document.getElementById('daddyQuote');
+        if (el) el.textContent = loveQuotes[0];
+        setInterval(rotateQuote, 1800);
+    }, 1200);
+
+    // 状态提示（保留但不显示，只为兼容）
+    const hints = ['连接中...', '准备就绪', ''];
     let hintIndex = 0;
 
     function showHint() {
-        const hintsContainer = document.getElementById('hints');
-        if (hintIndex < hints.length && hintsContainer) {
-            hintsContainer.innerHTML = `<div class="hint active">${hints[hintIndex]}</div>`;
-            hintIndex++;
-            setTimeout(showHint, 1000);
-        }
+        hintIndex++;
     }
     
    
@@ -33508,7 +33747,86 @@ function goHome() {
     // ▲▲▲ 新增的核心逻辑结束 ▲▲▲
 
     setActivePage('homeScreen');
+    updateHomeWidgets();
 }
+
+/* === 主屏 widget 更新函数 === */
+function updateHomeWidgets() {
+    // 1. 时间日期
+    const now = new Date();
+    const timeEl = document.getElementById('iosTimeBig');
+    const dateEl = document.getElementById('iosDateLabel');
+    if (timeEl) {
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        timeEl.textContent = h + ':' + m;
+    }
+    if (dateEl) {
+        const days = ['周日','周一','周二','周三','周四','周五','周六'];
+        const months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+        dateEl.textContent = months[now.getMonth()] + now.getDate() + '日  ' + days[now.getDay()];
+    }
+
+    // 2. 最近聊天
+    const container = document.getElementById('homeChatPreview');
+    if (!container) return;
+    if (typeof friends === 'undefined' || !friends || friends.length === 0) {
+        container.innerHTML = '<div class="ios-chat-preview-empty">暂无消息，点击进入微信</div>';
+        return;
+    }
+    const sorted = [...friends].sort((a, b) => {
+        const tA = a.lastMessageTimestamp ? new Date(a.lastMessageTimestamp) : new Date(0);
+        const tB = b.lastMessageTimestamp ? new Date(b.lastMessageTimestamp) : new Date(0);
+        return tB - tA;
+    }).slice(0, 3);
+
+    container.innerHTML = sorted.map(f => {
+        const name = f.remark || f.name || '好友';
+        let msg = f.lastMessage || '';
+        if (f.lastMessageContentType === 'image') msg = '[图片]';
+        if (f.lastMessageContentType === 'voice') msg = '[语音]';
+        if (f.lastMessageContentType === 'emoji') msg = '[表情]';
+        if (!msg) msg = '点击查看';
+
+        let avatarStyle = '';
+        let avatarInner = '';
+        if (f.avatarImage) {
+            avatarStyle = `background-image: url(${f.avatarImage});`;
+        } else {
+            avatarInner = (f.avatar || name.substring(0, 1));
+        }
+
+        // 时间格式化
+        let timeStr = '';
+        if (f.lastMessageTimestamp) {
+            const t = new Date(f.lastMessageTimestamp);
+            const nowD = new Date();
+            if (t.toDateString() === nowD.toDateString()) {
+                timeStr = String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0');
+            } else {
+                timeStr = (t.getMonth()+1) + '/' + t.getDate();
+            }
+        }
+
+        return `<div class="ios-chat-preview-item" onclick="event.stopPropagation(); openChat('${f.id}')">
+            <div class="ios-chat-preview-avatar" style="${avatarStyle}">${avatarInner}</div>
+            <div class="ios-chat-preview-info">
+                <div class="ios-chat-preview-name">${name}</div>
+                <div class="ios-chat-preview-msg">${msg}</div>
+            </div>
+            <div class="ios-chat-preview-time">${timeStr}</div>
+        </div>`;
+    }).join('');
+}
+
+// 每分钟刷新时间
+setInterval(() => {
+    const timeEl = document.getElementById('iosTimeBig');
+    if (timeEl && document.getElementById('homeScreen')?.classList.contains('active')) {
+        const now = new Date();
+        timeEl.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    }
+}, 30000);
 // ▲▲▲ 替换到这里结束 ▲▲▲
 
         function applyFont() {
@@ -42308,6 +42626,7 @@ window.onload = async function() {
         updateHomeWidget();
         updateFriendList();
         updateTime();
+        updateHomeWidgets();
         setActivePage('homeScreen');
 
 checkPeriodReminder(); 
