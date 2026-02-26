@@ -6564,14 +6564,15 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     width: calc(100% - 30px);
     max-width: 380px;
     height: 95px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: rgba(237, 227, 206, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(210, 195, 170, 0.6);
     border-radius: 40px;
     padding: 10px 20px;
     display: flex;
-    gap: 15px;
-    justify-content: center;
+    gap: 8px;
+    justify-content: space-around;
     align-items: center;
     z-index: 50;
     flex-shrink: 0; /* 防止被压缩 */
@@ -21954,33 +21955,8 @@ body,
                                         <img id="widgetImage2" src="https://i.imgur.com/example-avatar-2.png" onclick="editWidgetImage('widgetImage2')">
                                     </div>
                                 </div>
-                                <!-- 这是修改后的代码 -->
-<div class="app-grid">
-    <div class="app wechat" onclick="openApp('wechat')">
-        <div class="app-icon-container" id="icon-wechat">
-            <i class="ri-wechat-fill"></i>
-        </div>
-        <div class="app-label">微信</div>
-    </div>
-    <div class="app settings" onclick="openApp('settings')">
-        <div class="app-icon-container" id="icon-settings">
-            <i class="ri-settings-3-fill"></i>
-        </div>
-        <div class="app-label">设置</div>
-    </div>
-    <div class="app worldbook" onclick="openApp('worldbook')">
-        <div class="app-icon-container" id="icon-worldbook">
-            <i class="ri-book-3-fill"></i>
-        </div>
-        <div class="app-label">世界书</div>
-    </div>
-    <div class="app theme" onclick="openApp('theme')">
-        <div class="app-icon-container" id="icon-theme">
-            <i class="ri-palette-fill"></i>
-        </div>
-        <div class="app-label">主题</div>
-    </div>
-</div>
+
+
                             </div>
                         </div>
 
@@ -22017,10 +21993,7 @@ body,
         <i class="ri-heart-3-line"></i>
     </div>
 </div>
-                            <!-- 这是修改后的代码 -->
-<div class="icon-grid-placeholder">
 
-</div>
                             <div class="spacer"></div>
                            
                         </div>
@@ -22036,6 +22009,30 @@ body,
                     <!-- 固定元素：底部Dock栏 (现在是 .home-screen 的直接子元素) -->
               <!-- 这是修改后的代码 -->
 <div class="bottom-dock">
+    <div class="app wechat" onclick="openApp('wechat')">
+        <div class="app-icon-container" id="icon-wechat">
+            <i class="ri-wechat-fill"></i>
+        </div>
+        <div class="app-label">微信</div>
+    </div>
+    <div class="app settings" onclick="openApp('settings')">
+        <div class="app-icon-container" id="icon-settings">
+            <i class="ri-settings-3-fill"></i>
+        </div>
+        <div class="app-label">设置</div>
+    </div>
+    <div class="app worldbook" onclick="openApp('worldbook')">
+        <div class="app-icon-container" id="icon-worldbook">
+            <i class="ri-book-3-fill"></i>
+        </div>
+        <div class="app-label">世界书</div>
+    </div>
+    <div class="app theme" onclick="openApp('theme')">
+        <div class="app-icon-container" id="icon-theme">
+            <i class="ri-palette-fill"></i>
+        </div>
+        <div class="app-label">主题</div>
+    </div>
 </div>
 
                 </div>
