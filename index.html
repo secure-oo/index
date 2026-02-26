@@ -21837,6 +21837,33 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 }
 
 
+/* 状态栏融入奶油色 */
+.status-bar {
+    background-color: #EDE3CE !important;
+    color: #4A3728 !important;
+}
+
+/* 在主屏幕上状态栏透明 */
+.phone.home-screen-active .status-bar {
+    background-color: transparent !important;
+}
+
+/* App 图标颜色 — 暖棕色替代纯黑 */
+.app-icon-container i {
+    color: #7A5535 !important;
+}
+
+.bottom-dock .app-icon-container i {
+    color: #7A5535 !important;
+}
+
+/* App 图标容器背景 — 奶白带暖意 */
+.app-icon-container {
+    background: rgba(250, 245, 235, 0.92) !important;
+    border: 1px solid rgba(200, 170, 130, 0.25) !important;
+    box-shadow: 0 2px 8px rgba(100, 70, 40, 0.1) !important;
+}
+
 /* 全局背景 & CSS变量覆盖 */
 body,
 .page,
