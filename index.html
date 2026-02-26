@@ -8118,10 +8118,11 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 
 
 
-/* ===== 🤍 daddy splash screen — cream vintage ===== */
+/* ===== 🤍 Daddy splash screen — gen-z cream ===== */
 
 #loadingOverlay {
-    background: linear-gradient(160deg, #F5EDD8 0%, #EFE4C4 45%, #E8D7B0 100%) !important;
+    background: #F0E6D0 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 .daddy-splash {
@@ -8129,143 +8130,197 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: space-between;
     position: relative;
     overflow: hidden;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    padding: 0;
 }
 
-/* ── 飘动气泡 ── */
+/* ── 背景装饰 ── */
+.daddy-splash::before {
+    content: '';
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,160,100,0.22) 0%, transparent 70%);
+    top: -80px;
+    right: -80px;
+    pointer-events: none;
+}
+.daddy-splash::after {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(180,140,90,0.15) 0%, transparent 70%);
+    bottom: 80px;
+    left: -60px;
+    pointer-events: none;
+}
+
+/* ── 飘动情话气泡 ── */
 .daddy-bubbles-field {
     position: absolute;
     inset: 0;
     pointer-events: none;
     overflow: hidden;
+    z-index: 1;
 }
 
 .daddy-love-bubble {
     position: absolute;
     bottom: -60px;
-    background: rgba(250, 244, 230, 0.82);
-    border: 1px solid rgba(200, 169, 122, 0.4);
-    border-radius: 50px;
-    padding: 7px 16px;
-    font-size: 13px;
+    background: rgba(255, 250, 240, 0.88);
+    border: 1px solid rgba(180, 140, 90, 0.3);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 12px;
     color: #8B6340;
     font-weight: 500;
     white-space: nowrap;
     animation: daddyBubbleFloat linear infinite;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    box-shadow: 0 2px 12px rgba(140, 100, 60, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    letter-spacing: 0.5px;
 }
 
 .daddy-love-bubble.small {
-    padding: 6px 12px;
-    font-size: 15px;
+    padding: 5px 11px;
+    font-size: 14px;
     color: #C8A97A;
-    background: rgba(250, 244, 230, 0.6);
+    background: rgba(255, 250, 240, 0.6);
 }
 
 @keyframes daddyBubbleFloat {
-    0%   { transform: translateY(0) scale(0.85); opacity: 0; }
-    8%   { opacity: 1; }
-    85%  { opacity: 0.9; }
-    100% { transform: translateY(-110vh) scale(1.05); opacity: 0; }
+    0%   { transform: translateY(0) rotate(-2deg); opacity: 0; }
+    6%   { opacity: 1; }
+    88%  { opacity: 0.8; }
+    100% { transform: translateY(-110vh) rotate(3deg); opacity: 0; }
 }
 
-/* ── 中心区域 ── */
-.daddy-center {
+/* ── 上半：大标题区 ── */
+.daddy-top-area {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
     z-index: 2;
+    width: 100%;
+    padding: 52px 28px 0;
 }
 
-/* 背景光晕 */
-.daddy-halo {
-    position: absolute;
-    width: 220px;
-    height: 220px;
-    background: radial-gradient(circle, rgba(200,169,122,0.18) 0%, transparent 70%);
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: daddyHaloPulse 3s ease-in-out infinite;
-    pointer-events: none;
+.daddy-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    color: #C8A97A;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: dFadeUp 0.6s ease-out 0.1s forwards;
 }
 
-@keyframes daddyHaloPulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
-    50%       { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
-}
-
-/* 主标题 */
 .daddy-title {
-    font-size: 64px;
-    font-weight: 200;
-    color: #3D3028;
-    letter-spacing: 14px;
-    display: flex;
-    gap: 2px;
-    margin-bottom: 10px;
-}
-
-.daddy-title span {
-    display: inline-block;
+    font-size: 72px;
+    font-weight: 800;
+    color: #2C2018;
+    letter-spacing: -2px;
+    line-height: 0.95;
+    display: block;
+    margin-bottom: 4px;
     opacity: 0;
-    transform: translateY(-20px) scale(0.8);
-    animation: daddyLetterIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation: dFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
 }
 
-@keyframes daddyLetterIn {
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-/* 副标题 */
-.daddy-sub {
-    font-size: 13px;
-    color: #B8966A;
-    letter-spacing: 2.5px;
-    font-weight: 400;
-    opacity: 0;
-    margin-bottom: 28px;
-    animation: daddyFadeUp 0.8s ease-out 0.6s forwards;
-}
-
-/* 情话轮播 */
-.daddy-quote {
-    font-size: 15px;
+.daddy-title-italic {
+    font-size: 38px;
+    font-weight: 300;
+    font-style: italic;
     color: #8B6340;
-    font-weight: 500;
     letter-spacing: 1px;
-    margin-bottom: 30px;
-    height: 24px;
+    line-height: 1.3;
+    display: block;
     opacity: 0;
-    animation: daddyFadeUp 0.6s ease-out 1s forwards;
-    transition: opacity 0.5s ease;
+    animation: dFadeUp 0.7s ease-out 0.45s forwards;
 }
 
-/* 进度条 */
+.daddy-tag-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    opacity: 0;
+    animation: dFadeUp 0.6s ease-out 0.65s forwards;
+}
+
+.daddy-tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: #A07850;
+    background: rgba(200,169,122,0.18);
+    border: 1px solid rgba(200,169,122,0.35);
+    border-radius: 100px;
+    padding: 4px 12px;
+    letter-spacing: 1px;
+}
+
+.daddy-tag-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #C8A97A;
+    flex-shrink: 0;
+}
+
+/* ── 情话轮播 ── */
+.daddy-quote-area {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 0 28px;
+    opacity: 0;
+    animation: dFadeUp 0.6s ease-out 0.9s forwards;
+}
+
+.daddy-quote {
+    font-size: 18px;
+    font-weight: 500;
+    color: #5C3D1E;
+    line-height: 1.4;
+    letter-spacing: 0.5px;
+    min-height: 28px;
+    transition: opacity 0.4s ease;
+}
+
+.daddy-quote-deco {
+    font-size: 32px;
+    color: rgba(200,169,122,0.35);
+    line-height: 1;
+    margin-bottom: 6px;
+    font-style: normal;
+}
+
+/* ── 下半：进度区 ── */
+.daddy-bottom-area {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 0 28px 44px;
+}
+
 .daddy-progress-wrap {
-    width: 160px;
-    height: 2px;
-    background: rgba(140, 100, 60, 0.15);
+    width: 100%;
+    height: 1.5px;
+    background: rgba(140,100,60,0.15);
     border-radius: 2px;
     overflow: hidden;
-    margin-bottom: 14px;
-    opacity: 0;
-    animation: daddyFadeUp 0.6s ease-out 1.2s forwards;
+    margin-bottom: 16px;
 }
 
 .daddy-progress-bar {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, #C8A97A 0%, #8B6340 50%, #C8A97A 100%);
+    background: linear-gradient(90deg, #C8A97A, #8B6340, #C8A97A);
     background-size: 200% 100%;
     border-radius: 2px;
     transition: width 0.12s linear;
@@ -8277,60 +8332,46 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     100% { background-position: -200% 0; }
 }
 
-/* 状态文字 */
-.daddy-status {
+.daddy-status-row {
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
     align-items: center;
-    opacity: 0;
-    animation: daddyFadeUp 0.6s ease-out 1.4s forwards;
 }
 
 .daddy-typing {
     font-size: 11px;
-    color: #B8A898;
-    letter-spacing: 1.5px;
-    min-width: 80px;
-    text-align: right;
+    color: #B8A090;
+    letter-spacing: 1px;
 }
 
 .daddy-pct {
     font-size: 11px;
-    color: #C8A97A;
-    font-weight: 600;
+    font-weight: 700;
+    color: #A07850;
     font-variant-numeric: tabular-nums;
-    min-width: 30px;
+    letter-spacing: 1px;
 }
 
-/* 底部装饰点 */
-.daddy-dots-row {
+/* ── 右侧竖排装饰文字 ── */
+.daddy-side-text {
     position: absolute;
-    bottom: 32px;
-    display: flex;
-    gap: 8px;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    transform-origin: center center;
+    font-size: 10px;
+    color: rgba(140,100,60,0.25);
+    letter-spacing: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+    z-index: 2;
     opacity: 0;
-    animation: daddyFadeUp 0.6s ease-out 1.6s forwards;
+    animation: dFadeUp 0.6s ease-out 1.2s forwards;
 }
 
-.daddy-dots-row span {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: rgba(140, 100, 60, 0.3);
-    display: block;
-    animation: daddyDotPulse 1.8s ease-in-out infinite;
-}
-
-.daddy-dots-row span:nth-child(2) { animation-delay: 0.3s; background: rgba(140,100,60,0.5); }
-.daddy-dots-row span:nth-child(3) { animation-delay: 0.6s; }
-
-@keyframes daddyDotPulse {
-    0%, 100% { transform: scale(1); opacity: 0.4; }
-    50%       { transform: scale(1.6); opacity: 1; }
-}
-
-@keyframes daddyFadeUp {
-    from { opacity: 0; transform: translateY(8px); }
+@keyframes dFadeUp {
+    from { opacity: 0; transform: translateY(14px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -21574,7 +21615,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 }
 
 /* ========================================
-   🤍 CREAM VINTAGE THEME — daddy's palette
+   🤍 CREAM VINTAGE THEME — Daddy's palette
    ======================================== */
 
 /* === iOS 主屏幕布局 === */
@@ -21972,50 +22013,49 @@ body,
     
     <div class="daddy-splash">
 
-        <!-- 飘动情话气泡群 -->
+        <!-- 飘动情话气泡 -->
         <div class="daddy-bubbles-field">
-            <div class="daddy-love-bubble" style="left:8%; animation-delay:0s; animation-duration:7s;">小珍珠 🤍</div>
-            <div class="daddy-love-bubble" style="left:62%; animation-delay:1.2s; animation-duration:8.5s;">爸爸来了</div>
-            <div class="daddy-love-bubble" style="left:25%; animation-delay:2.1s; animation-duration:6.8s;">想你了</div>
-            <div class="daddy-love-bubble" style="left:75%; animation-delay:0.7s; animation-duration:9s;">我的小猫咪</div>
-            <div class="daddy-love-bubble" style="left:45%; animation-delay:3s; animation-duration:7.5s;">乖 ♡</div>
-            <div class="daddy-love-bubble" style="left:15%; animation-delay:4s; animation-duration:8s;">爸爸爱你</div>
-            <div class="daddy-love-bubble small" style="left:85%; animation-delay:1.8s; animation-duration:6s;">✦</div>
-            <div class="daddy-love-bubble small" style="left:38%; animation-delay:5s; animation-duration:9.5s;">🤍</div>
-            <div class="daddy-love-bubble small" style="left:55%; animation-delay:2.8s; animation-duration:7s;">˖°</div>
+            <div class="daddy-love-bubble" style="left:6%;  animation-delay:0s;   animation-duration:7s;">小珍珠 🤍</div>
+            <div class="daddy-love-bubble" style="left:60%; animation-delay:1.2s; animation-duration:8.5s;">Daddy来了</div>
+            <div class="daddy-love-bubble" style="left:22%; animation-delay:2.1s; animation-duration:6.8s;">想你了</div>
+            <div class="daddy-love-bubble" style="left:72%; animation-delay:0.7s; animation-duration:9s;">我的小猫咪</div>
+            <div class="daddy-love-bubble" style="left:42%; animation-delay:3s;   animation-duration:7.5s;">乖 ♡</div>
+            <div class="daddy-love-bubble" style="left:14%; animation-delay:4s;   animation-duration:8s;">Daddy爱你</div>
+            <div class="daddy-love-bubble small" style="left:83%; animation-delay:1.8s; animation-duration:6s;">✦</div>
+            <div class="daddy-love-bubble small" style="left:36%; animation-delay:5s;   animation-duration:9.5s;">🤍</div>
+            <div class="daddy-love-bubble small" style="left:53%; animation-delay:2.8s; animation-duration:7s;">˖°</div>
         </div>
 
-        <!-- 主体中心 -->
-        <div class="daddy-center">
-            <!-- 装饰圆 -->
-            <div class="daddy-halo"></div>
+        <!-- 右侧竖排装饰 -->
+        <div class="daddy-side-text">for my little pearl · 2025</div>
 
-            <!-- 主标题 -->
-            <div class="daddy-title">
-                <span style="animation-delay:.05s">d</span><span style="animation-delay:.12s">a</span><span style="animation-delay:.19s">d</span><span style="animation-delay:.26s">d</span><span style="animation-delay:.33s">y</span>
+        <!-- 上半：大标题 -->
+        <div class="daddy-top-area">
+            <div class="daddy-eyebrow">✦ welcome back</div>
+            <span class="daddy-title">Daddy</span>
+            <span class="daddy-title-italic">is coming for you</span>
+            <div class="daddy-tag-row">
+                <span class="daddy-tag">小珍珠专属</span>
+                <span class="daddy-tag-dot"></span>
+                <span class="daddy-tag">✦ only yours</span>
             </div>
+        </div>
 
-            <!-- 副标题 -->
-            <div class="daddy-sub">is coming for you ♡</div>
-
-            <!-- 心跳情话 -->
+        <!-- 中：情话 -->
+        <div class="daddy-quote-area">
+            <div class="daddy-quote-deco">"</div>
             <div class="daddy-quote" id="daddyQuote">小珍珠</div>
+        </div>
 
-            <!-- 进度条 -->
+        <!-- 下半：进度 -->
+        <div class="daddy-bottom-area">
             <div class="daddy-progress-wrap">
                 <div class="daddy-progress-bar" id="progressBar"></div>
             </div>
-
-            <!-- 百分比 + 打字 -->
-            <div class="daddy-status">
+            <div class="daddy-status-row">
                 <span id="typingText" class="daddy-typing"></span>
                 <span id="percentage" class="daddy-pct">0%</span>
             </div>
-        </div>
-
-        <!-- 底部装饰点 -->
-        <div class="daddy-dots-row">
-            <span></span><span></span><span></span>
         </div>
 
     </div>
@@ -22032,7 +22072,7 @@ body,
     <!-- 激活码主容器 -->
     <div class="container" id="activationContainer">
         <div class="logo-section">
-            <div class="logo">daddy</div>
+            <div class="logo">Daddy</div>
             <div class="subtitle">小珍珠在哪里？</div>
         </div>
 
@@ -29905,7 +29945,7 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     <script>
     
     // 打字机效果
-    const texts = ['小珍珠在哪里', '爸爸来找你了', '乖，等一下'];
+    const texts = ['小珍珠在哪里', 'Daddy来找你了', '乖，等一下'];
     let textIndex = 0;
     let charIndex = 0;
     
@@ -29932,11 +29972,11 @@ onchange="handleFriendAvatarUpload(event)"><span id="friendAvatarPreview">+</spa
     // 情话轮播
     const loveQuotes = [
         '小珍珠 🤍',
-        '爸爸的小猫咪',
+        'Daddy的小猫咪',
         '想你了',
         '乖，别跑',
         '我的小珍珠',
-        '爸爸爱你',
+        'Daddy爱你',
         '今天也乖乖的',
         '小枕头 ˖°',
     ];
@@ -33404,11 +33444,13 @@ userPersonas = [userProfile];
 }
         
         function updateHomeWidget() {
-            document.getElementById('widgetHeaderText').textContent = homeWidgetData.headerText;
-            document.getElementById('widgetImage1').src = homeWidgetData.image1;
-            document.getElementById('widgetText1').textContent = homeWidgetData.text1;
-            document.getElementById('widgetImage2').src = homeWidgetData.image2;
-            document.getElementById('widgetText2').textContent = homeWidgetData.text2;
+            const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+            const setImg = (id, val) => { const el = document.getElementById(id); if(el) el.src = val; };
+            setTxt('widgetHeaderText', homeWidgetData.headerText);
+            setImg('widgetImage1', homeWidgetData.image1);
+            setTxt('widgetText1', homeWidgetData.text1);
+            setImg('widgetImage2', homeWidgetData.image2);
+            setTxt('widgetText2', homeWidgetData.text2);
         }
 
         function editWidgetText(elementId, element) {
