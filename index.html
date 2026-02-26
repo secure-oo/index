@@ -21556,6 +21556,177 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     color: #000;
 }
 
+/* ========================================
+   🤍 CREAM VINTAGE THEME — daddy's palette
+   ======================================== */
+
+/* 全局背景 & CSS变量覆盖 */
+body,
+.page,
+#homeScreen,
+.home-screen,
+.home-screen-page {
+    background-color: #F2EAD8 !important;
+}
+
+/* 导航栏 */
+.nav-bar {
+    background-color: #EDE3CE !important;
+    border-bottom: 1px solid #D8CCBA !important;
+}
+
+/* 底部导航 */
+.wechat-bottom-nav {
+    background-color: #EDE3CE !important;
+    border-top: 1px solid #D8CCBA !important;
+}
+
+/* 聊天列表 & 主内容区背景 */
+.wechat-content,
+.settings-content,
+.discover-content {
+    background-color: #F2EAD8 !important;
+}
+
+/* 卡片 */
+.bw-style .form-card,
+.form-card {
+    background-color: #FAF5EB !important;
+    border-radius: 14px !important;
+    box-shadow: 0 1px 4px rgba(120,90,60,0.07) !important;
+}
+
+/* 列表项分割线 */
+.bw-style .form-group-row,
+.form-group-row {
+    border-bottom-color: #E8DEC8 !important;
+}
+
+/* 消息列表每一项 */
+.friend-list-item,
+.contact-item {
+    background-color: #FAF5EB !important;
+    border-bottom-color: #EBE2CF !important;
+}
+
+.friend-list-item:active,
+.contact-item:active {
+    background-color: #EDE3CE !important;
+}
+
+/* 聊天气泡区背景 */
+.chat-messages {
+    background-color: #F2EAD8 !important;
+}
+
+/* 输入区域背景 */
+.chat-input-area,
+.chat-input {
+    background-color: #EDE3CE !important;
+    border-top: 1px solid #D8CCBA !important;
+}
+
+/* 输入框 */
+#messageInput,
+.chat-input textarea {
+    background-color: #FAF5EB !important;
+    border: 1px solid #D4C4A8 !important;
+    color: #3D3028 !important;
+}
+
+/* 按钮图标 */
+.chat-btn {
+    color: #6B5740 !important;
+}
+
+/* 导航文字 */
+.wechat-tab div,
+.wechat-tab-icon,
+.nav-btn,
+.nav-title {
+    color: #4A3728 !important;
+}
+
+/* 激活的tab */
+.wechat-tab.active .wechat-tab-icon,
+.wechat-tab.active div {
+    color: #8B6340 !important;
+}
+
+/* 文字颜色覆盖 */
+.form-label,
+.bw-style .form-label {
+    color: #3D3028 !important;
+}
+
+.form-value-display,
+.bw-style .form-value-display {
+    color: #9C8770 !important;
+}
+
+/* 小字/副标题 */
+.friend-name,
+.contact-name {
+    color: #3D3028 !important;
+}
+
+.friend-preview,
+.message-preview,
+.last-message {
+    color: #9C8770 !important;
+}
+
+/* 时间戳 */
+.message-time,
+.friend-time {
+    color: #B8A898 !important;
+}
+
+/* 桌面App标签颜色 */
+.app-label {
+    color: #FAF0DC !important;
+    text-shadow: 0 1px 3px rgba(60,40,20,0.5) !important;
+}
+
+/* App图标背景——保留白色，加点暖调 */
+.app-icon-container {
+    background-color: #FAF5EB !important;
+    box-shadow: 0 2px 8px rgba(100,70,40,0.12) !important;
+}
+
+/* 锁屏/splash背景 */
+#splashScreen {
+    background: linear-gradient(160deg, #F2E8D0 0%, #E8D9BA 50%, #DEC9A0 100%) !important;
+}
+
+/* 模态弹窗 */
+.modal-content,
+.bottom-sheet-content {
+    background-color: #FAF5EB !important;
+}
+
+/* 搜索框 */
+.search-bar,
+.search-input-box {
+    background-color: #EDE3CE !important;
+}
+
+/* 气泡颜色柔化（如果没有自定义的话） */
+.message-sent .message-bubble {
+    background-color: #C8A97A !important;
+    color: #FAF5EB !important;
+}
+
+.message-received .message-bubble {
+    background-color: #FAF5EB !important;
+    color: #3D3028 !important;
+}
+
+/* 底部Dock栏空白占位 */
+.bottom-dock {
+    background-color: rgba(237, 227, 206, 0.85) !important;
+}
+
     </style>
 </head>
 <body>
@@ -21849,39 +22020,6 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
                             <!-- 这是修改后的代码 -->
 <div class="icon-grid-placeholder">
 
-    <!-- 第一个图标：同人 -->
-    <div class="app" onclick="openApp('doujinForum')">
-        <div class="app-icon-container card-style" id="icon-doujin"> <!-- <--- 增加了 id -->
-            <i class="ri-quill-pen-line"></i>
-        </div>
-        <div class="app-label">同人</div>
-    </div>
-
-    <!-- 游戏中心入口 -->
-<div class="app" onclick="openApp('games')">
-    <div class="app-icon-container card-style" id="icon-games">
-        <i class="ri-gamepad-line"></i>
-    </div>
-    <div class="app-label">游戏</div>
-</div>
-
-    <!-- 找到这一段并替换 -->
-<!-- 第三个图标：商店 (原闲置2) -->
-<div class="app" onclick="openApp('store')"> <!-- 修改 onclick -->
-    <div class="app-icon-container card-style" id="icon-store"> <!-- 修改 id -->
-        <i class="ri-shopping-bag-line"></i> <!-- 换个图标 -->
-    </div>
-    <div class="app-label">商店</div> <!-- 修改名字 -->
-</div>
-
-    <!-- 替换原来的 闲置3 app -->
-<div class="app" onclick="openApp('lovers')">
-    <div class="app-icon-container card-style" id="icon-lovers">
-        <i class="ri-hearts-line"></i>
-    </div>
-    <div class="app-label">情侣空间</div>
-</div>
-
 </div>
                             <div class="spacer"></div>
                            
@@ -21898,26 +22036,6 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
                     <!-- 固定元素：底部Dock栏 (现在是 .home-screen 的直接子元素) -->
               <!-- 这是修改后的代码 -->
 <div class="bottom-dock">
-    <div class="app"onclick="openApp('phone')">
-        <div class="app-icon-container" id="icon-phone">
-            <i class="ri-phone-fill"></i>
-        </div>
-        <div class="app-label">手机</div>
-    </div>
-    <div class="app forum-app" onclick="openApp('forum')">
-        <div class="app-icon-container" id="icon-forum">
-            <i class="ri-discuss-fill"></i>
-        </div>
-        <div class="app-label">论坛</div>
-    </div>
-    <!-- 替换原来的直播入口代码 -->
-<div class="app" onclick="openApp('live')">
-    <!-- 删除 style 属性，让它回归统一的白色背景和黑色图标样式 -->
-    <div class="app-icon-container" id="icon-live">
-        <i class="ri-live-fill"></i>
-    </div>
-    <div class="app-label">直播</div>
-</div>
 </div>
 
                 </div>
