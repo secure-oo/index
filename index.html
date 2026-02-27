@@ -80032,7 +80032,234 @@ function continueLastRedemption() {
  <script src="https://unpkg.com/pinyin-pro"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <!-- ================= 🎨 界面美化与功能修复补丁 (开始) ================= -->
+<style>
+/* --- 1. iOS 26 莫兰迪色系与毛玻璃主题 --- */
+:root {
+    --theme-cream: #FDF6E3;      /* 奶油底色 */
+    --theme-sage: #B2C5B2;       /* 鼠尾草绿 */
+    --theme-dusty-pink: #DDB6C4; /* 烟粉色 */
+    --theme-slate: #889FA5;      /* 雾霾蓝 */
+    --theme-sand: #E6DCC8;       /* 暖沙色 */
+    --theme-text-dark: #5C4B40;  /* 咖啡深棕 (比纯黑更复古) */
     
+    /* 毛玻璃特效变量 */
+    --glass-bg: rgba(253, 246, 227, 0.75);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.6);
+    --glass-shadow: 0 10px 40px rgba(100, 80, 60, 0.08);
+    --glass-blur: blur(25px) saturate(180%);
+}
+
+/* 强制覆盖背景，解决背景图无法显示的问题 */
+body, .phone, .screen, .home-screen, .page, .wechat-content {
+    background-color: var(--theme-cream) !important;
+    color: var(--theme-text-dark) !important;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+/* 如果有背景图，背景色要变成透明，让图透出来 */
+.phone[style*="url"], .home-screen[style*="url"] {
+    background-color: transparent !important;
+}
+
+/* --- 2. 桌面组件设计 (悬浮卡片感) --- */
+.ios-datetime-widget, .ios-widget-card, .ios-chat-widget, .profile-widget-container, .new-widget {
+    background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.4)) !important;
+    border: var(--glass-border) !important;
+    box-shadow: var(--glass-shadow) !important;
+    border-radius: 26px !important;
+    backdrop-filter: blur(10px) !important;
+    color: var(--theme-text-dark) !important;
+}
+
+/* 时间大字更优雅 */
+.ios-time-big {
+    font-weight: 300 !important;
+    color: var(--theme-text-dark) !important;
+    letter-spacing: -1px;
+}
+
+/* --- 3. 聊天界面美化 (毛玻璃顶栏与底栏) --- */
+
+/* 顶部导航栏 */
+.nav-bar, .status-bar {
+    background: var(--glass-bg) !important;
+    backdrop-filter: var(--glass-blur) !important;
+    -webkit-backdrop-filter: var(--glass-blur) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.3) !important;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.02) !important;
+}
+.nav-title { 
+    font-weight: 700 !important; 
+    color: var(--theme-text-dark) !important;
+    letter-spacing: 1px;
+}
+
+/* 底部输入框区域 */
+.chat-input-area, .chat-input {
+    background: var(--glass-bg) !important;
+    backdrop-filter: var(--glass-blur) !important;
+    -webkit-backdrop-filter: var(--glass-blur) !important;
+    border-top: 1px solid rgba(255,255,255,0.3) !important;
+}
+
+/* 输入框本体 */
+#messageInput, .chat-input textarea {
+    background: rgba(255, 255, 255, 0.7) !important;
+    border: 1px solid rgba(0,0,0,0.05) !important;
+    border-radius: 20px !important;
+    padding: 10px 15px !important;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
+    color: var(--theme-text-dark) !important;
+}
+
+/* 按钮图标颜色 */
+.nav-btn, .chat-btn i, .chat-btn svg {
+    color: var(--theme-text-dark) !important;
+    fill: var(--theme-text-dark) !important;
+}
+
+/* --- 4. 底部 Dock 栏 (悬浮胶囊风) --- */
+.bottom-dock {
+    width: 92% !important;
+    margin-left: 4% !important;
+    margin-bottom: 25px !important;
+    background: rgba(255, 255, 255, 0.4) !important;
+    border: 1px solid rgba(255,255,255,0.6) !important;
+    border-radius: 35px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important;
+    backdrop-filter: blur(20px) !important;
+}
+
+/* App图标背景 - 莫兰迪色块 */
+.app-icon-container {
+    border-radius: 16px !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05) !important;
+    border: none !important;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.app-icon-container:active { transform: scale(0.9); }
+
+/* 为不同APP分配颜色 */
+.app.wechat .app-icon-container { background-color: var(--theme-sage) !important; }
+.app.settings .app-icon-container { background-color: var(--theme-slate) !important; }
+.app.worldbook .app-icon-container { background-color: var(--theme-sand) !important; }
+.app.theme .app-icon-container { background-color: var(--theme-dusty-pink) !important; }
+
+/* 图标统一变白 */
+.app-icon-container i { color: #fff !important; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1)); }
+.app-label { color: var(--theme-text-dark) !important; font-weight: 600 !important; text-shadow: none !important; }
+
+/* --- 5. 聊天气泡 (可爱圆润) --- */
+.message-content {
+    border-radius: 18px !important;
+    padding: 12px 16px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03) !important;
+    border: none !important;
+}
+
+/* 我发的消息 (渐变粉) */
+.message.sent .message-content {
+    background: linear-gradient(135deg, #F0D5D3, #E8C1C8) !important;
+    color: #5C4B40 !important;
+}
+
+/* 对方发的消息 (纯白) */
+.message.received .message-content {
+    background: #FFFFFF !important;
+    color: #5C4B40 !important;
+}
+
+/* --- 6. 点击波纹特效 (增加交互感) --- */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple-anim 0.6s linear;
+    background-color: rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+}
+@keyframes ripple-anim {
+    to { transform: scale(4); opacity: 0; }
+}
+/* 按钮 Q 弹效果 */
+button:active, .nav-btn:active, .chat-btn:active, .friend-item:active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+}
+</style>
+
+<script>
+// --- 逻辑补丁：修复背景图无法更换的问题 ---
+
+// 覆盖原有的壁纸保存逻辑
+window.saveWallpaper = async function() {
+    const phoneElement = document.querySelector('.phone');
+    const homeScreenElement = document.getElementById('homeScreen');
+    
+    // 如果选择了自定义图片
+    if (selectedWallpaper === 'custom' && customWallpaperImage) {
+        // 设置背景图
+        phoneElement.style.backgroundImage = `url(${customWallpaperImage})`;
+        phoneElement.style.backgroundColor = 'transparent'; // 关键：让颜色透明，显示图片
+        
+        // 强制刷新一下，防止不显示
+        phoneElement.style.display = 'none';
+        phoneElement.offsetHeight; 
+        phoneElement.style.display = 'block';
+    } else {
+        // 如果是默认，恢复奶油色
+        phoneElement.style.backgroundImage = 'none';
+        phoneElement.style.backgroundColor = ''; // 移除内联样式，让CSS生效
+    }
+
+    await saveData();
+    showAlert('壁纸已更新！(如果看不到请刷新页面)');
+    backToTheme();
+};
+
+// 页面加载时自动检查背景
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const phoneElement = document.querySelector('.phone');
+        if (selectedWallpaper === 'custom' && customWallpaperImage) {
+            phoneElement.style.backgroundImage = `url(${customWallpaperImage})`;
+            phoneElement.style.backgroundColor = 'transparent';
+        }
+    }, 800); // 稍微晚一点执行，确保数据已加载
+});
+
+// --- 添加点击波纹特效 ---
+document.addEventListener('click', function(e) {
+    // 只有点击按钮或列表项时才触发
+    const target = e.target.closest('.nav-btn, .chat-btn, .settings-btn, .app');
+    if (target) {
+        const circle = document.createElement("span");
+        const diameter = Math.max(target.clientWidth, target.clientHeight);
+        const radius = diameter / 2;
+        
+        // 确保父元素相对定位
+        const style = window.getComputedStyle(target);
+        if(style.position === 'static') {
+            target.style.position = 'relative';
+        }
+        if(style.overflow !== 'hidden') {
+            target.style.overflow = 'hidden';
+        }
+
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${e.clientX - target.getBoundingClientRect().left - radius}px`;
+        circle.style.top = `${e.clientY - target.getBoundingClientRect().top - radius}px`;
+        circle.classList.add("ripple");
+
+        const ripple = target.getElementsByClassName("ripple")[0];
+        if (ripple) ripple.remove();
+
+        target.appendChild(circle);
+    }
+});
+</script>
+<!-- ================= 🎨 界面美化补丁 (结束) ================= -->  
 </body>
 </html>
 
