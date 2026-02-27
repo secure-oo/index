@@ -21841,6 +21841,7 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
 .status-bar {
     background-color: #EDE3CE !important;
     color: #4A3728 !important;
+    height: 30px !important;
 }
 
 /* 在主屏幕上状态栏透明 */
@@ -21848,21 +21849,37 @@ filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
     background-color: transparent !important;
 }
 
-/* App 图标颜色 — 暖棕色替代纯黑 */
-.app-icon-container i {
-    color: #7A5535 !important;
-}
+/* ── 莫兰迪色给四个Dock图标分别上色 ── */
+.app.wechat .app-icon-container  { background: #B2C5B2 !important; }
+.app.settings .app-icon-container { background: #C0D2D6 !important; }
+.app.worldbook .app-icon-container { background: #E6DCC8 !important; }
+.app.theme .app-icon-container    { background: #EBCBCB !important; }
 
+/* Dock图标统一白色 */
 .bottom-dock .app-icon-container i {
-    color: #7A5535 !important;
+    color: #fff !important;
+    font-size: 24px !important;
 }
 
-/* App 图标容器背景 — 奶白带暖意 */
-.app-icon-container {
-    background: rgba(250, 245, 235, 0.92) !important;
-    border: 1px solid rgba(200, 170, 130, 0.25) !important;
-    box-shadow: 0 2px 8px rgba(100, 70, 40, 0.1) !important;
+/* Dock隐藏文字 */
+.bottom-dock .app-label { display: none !important; }
+
+/* ── 内容区避让顶部导航栏（解决内容被遮挡）── */
+.wechat-content,
+.settings-content,
+.discover-content,
+.profile-content,
+.chat-messages,
+#worldBookList,
+#beautificationSettingsList {
+    padding-top: 82px !important;
 }
+
+/* 聊天页面单独处理，不加顶部padding（有nav-bar撑开） */
+#chatScreen .chat-messages {
+    padding-top: 0 !important;
+}
+
 
 /* 全局背景 & CSS变量覆盖 */
 body,
@@ -80032,264 +80049,7 @@ function continueLastRedemption() {
  <script src="https://unpkg.com/pinyin-pro"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <!-- ================= 🎨 iOS 26 奶油风：布局修复版 (V3.1) ================= -->
-<style>
-/* --- 1. 核心配色变量 --- */
-:root {
-    --theme-cream: #FFFBF0;       /* 奶油白底色 */
-    --theme-text: #5D4037;        /* 复古深咖文字 */
-    --glass-heavy: rgba(255, 251, 240, 0.95); /* 导航栏背景 (不透明度调高，防止重影) */
-    --glass-dock: rgba(255, 255, 255, 0.65);  /* Dock栏半透明 */
-    --widget-bg: rgba(255, 255, 255, 0.5);    /* 组件半透明 */
     
-    /* 莫兰迪色系 */
-    --accent-sage: #B2C5B2;
-    --accent-pink: #EBCBCB;
-    --accent-blue: #C0D2D6;
-    --accent-sand: #E6DCC8;
-}
-
-/* --- 2. 全局背景修复 --- */
-body, .phone {
-    background-color: var(--theme-cream) !important;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-    color: var(--theme-text) !important;
-}
-
-/* 强制清除中间层的背景，防止变灰 */
-.screen, .page, .home-screen, .wechat-content {
-    background: transparent !important;
-}
-
-/* --- 3. 顶部导航栏布局修复 (关键) --- */
-
-/* 状态栏 (最顶层的一条: 时间/电量) */
-.status-bar {
-    height: 40px !important; /*稍微增高*/
-    background-color: var(--glass-heavy) !important;
-    z-index: 2001 !important;
-    color: var(--theme-text) !important;
-}
-
-/* 导航栏 (标题/返回按钮) */
-.nav-bar {
-    top: 40px !important; /* 紧贴状态栏下方 */
-    height: 50px !important;
-    background-color: var(--glass-heavy) !important;
-    border-bottom: 1px solid rgba(0,0,0,0.05) !important;
-    box-shadow: 0 4px 15px rgba(93, 64, 55, 0.05) !important;
-    z-index: 2000 !important;
-    padding-top: 0 !important; /* 修正内边距 */
-    align-items: center !important;
-    display: flex !important;
-}
-
-/* 导航栏文字与图标颜色 */
-.nav-title { color: var(--theme-text) !important; font-weight: 700 !important; }
-.nav-btn, .nav-btn i, .status-bar span, #currentTime { color: var(--theme-text) !important; }
-
-/* 主屏幕状态栏特殊处理：透明 */
-.phone.home-screen-active .status-bar {
-    background-color: transparent !important;
-}
-
-/* --- 4. 页面内容避让修复 (解决遮挡问题的核心) --- */
-
-/* 给所有可能有内容的容器强行加上顶部内边距 */
-.wechat-content, 
-.settings-content, 
-.discover-content, 
-.profile-content,
-.chat-messages,
-#worldBookList,
-#beautificationSettingsList {
-    /* 40px(状态栏) + 50px(导航栏) + 10px(间隙) = 100px */
-    padding-top: 100px !important; 
-}
-
-/* 主屏幕组件容器避让 */
-#ios-desktop-container {
-    padding-top: 110px !important; /* 避开顶部大时间 */
-    padding-bottom: 120px !important; /* 避开底部Dock */
-    height: 100%;
-    overflow-y: auto;
-    box-sizing: border-box;
-}
-
-/* --- 5. 底部 Dock 栏美化 --- */
-.bottom-dock {
-    position: absolute !important;
-    bottom: 30px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    width: 90% !important;
-    max-width: 360px !important;
-    background: var(--glass-dock) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    border-radius: 35px !important;
-    border: 1px solid rgba(255,255,255,0.8) !important;
-    box-shadow: 0 10px 30px rgba(93, 64, 55, 0.1) !important;
-    margin: 0 !important;
-    z-index: 1000 !important;
-}
-
-/* 隐藏Dock文字 */
-.bottom-dock .app-label { display: none !important; }
-
-/* Dock图标容器 */
-.bottom-dock .app-icon-container {
-    width: 48px !important;
-    height: 48px !important;
-    border-radius: 14px !important;
-    box-shadow: 0 4px 10px rgba(93, 64, 55, 0.15) !important;
-    background-color: #fff !important;
-    margin: 0 auto !important;
-}
-/* Dock图标颜色分配 */
-.app.wechat .app-icon-container { background-color: var(--accent-sage) !important; }
-.app.settings .app-icon-container { background-color: var(--accent-blue) !important; }
-.app.worldbook .app-icon-container { background-color: var(--accent-sand) !important; }
-.app.theme .app-icon-container { background-color: var(--accent-pink) !important; }
-.bottom-dock .app-icon-container i { color: #fff !important; font-size: 24px !important; }
-
-/* --- 6. 隐藏旧组件 --- */
-.profile-widget-container, .home-widgets-container { display: none !important; }
-
-/* --- 7. iOS 组件样式 --- */
-.ios-widget {
-    background: var(--widget-bg);
-    border-radius: 24px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-    border: 1px solid rgba(255,255,255,0.5);
-    backdrop-filter: blur(10px);
-}
-
-.widget-clock {
-    text-align: center;
-    padding: 20px 0;
-    margin-top: -20px; /* 微调位置 */
-}
-.clock-time {
-    font-size: 68px;
-    font-weight: 300;
-    line-height: 1;
-    color: var(--theme-text);
-    letter-spacing: -3px;
-}
-.clock-date {
-    font-size: 14px;
-    font-weight: 600;
-    opacity: 0.6;
-    letter-spacing: 1px;
-}
-
-.widget-row {
-    display: flex;
-    gap: 15px;
-    width: 100%;
-}
-.widget-square {
-    flex: 1;
-    aspect-ratio: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-.widget-icon {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; font-size: 18px;
-}
-.w-title { font-size: 15px; font-weight: 700; margin-top: 5px; }
-.w-sub { font-size: 11px; opacity: 0.7; }
-
-/* 输入框修复 */
-.chat-input {
-    background: var(--glass-heavy) !important;
-    border-top: 1px solid rgba(0,0,0,0.05) !important;
-}
-#messageInput {
-    background: #fff !important;
-    border-radius: 20px !important;
-    color: var(--theme-text) !important;
-}
-
-/* 列表项修复 */
-.friend-item, .form-card {
-    background: rgba(255, 255, 255, 0.7) !important;
-    border: 1px solid rgba(255,255,255,0.5) !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02) !important;
-}
-</style>
-
-<script>
-// --- JS 初始化：确保新桌面加载 ---
-function initIOSDesktopV3() {
-    const homeScreen = document.getElementById('homeScreen');
-    if (!homeScreen || document.getElementById('ios-desktop-container')) return;
-
-    const html = `
-    <div id="ios-desktop-container">
-        <!-- 时钟组件 -->
-        <div class="ios-widget widget-clock">
-            <div class="clock-date" id="iosDate">JAN 1</div>
-            <div class="clock-time" id="iosTime">12:00</div>
-        </div>
-
-        <!-- 功能组件行 -->
-        <div class="widget-row">
-            <div class="ios-widget widget-square" onclick="openApp('wechat'); setTimeout(()=>switchWechatTab('profile'), 50)">
-                <div class="widget-icon" style="background:var(--accent-blue);"><i class="ri-user-smile-line"></i></div>
-                <div><div class="w-title">我的档案</div><div class="w-sub">查看人设</div></div>
-            </div>
-            <div class="ios-widget widget-square" onclick="openApp('wechat'); setTimeout(()=>switchWechatTab('discover'), 50)">
-                <div class="widget-icon" style="background:var(--accent-pink);"><i class="ri-heart-2-line"></i></div>
-                <div><div class="w-title">朋友圈</div><div class="w-sub">记录点滴</div></div>
-            </div>
-        </div>
-
-        <!-- 音乐组件 -->
-        <div class="ios-widget" style="display:flex;align-items:center;gap:15px;padding:15px;" onclick="openListenTogether()">
-            <div class="widget-icon" style="background:var(--accent-sand);border-radius:8px;width:44px;height:44px;">
-                <i class="ri-music-fill"></i>
-            </div>
-            <div style="flex:1;">
-                <div class="w-title" style="margin:0;">一起听</div>
-                <div class="w-sub">点击播放心动歌单</div>
-            </div>
-            <i class="ri-play-circle-fill" style="font-size:28px;color:var(--accent-sand);"></i>
-        </div>
-        
-        <!-- 底部占位 -->
-        <div style="height: 100px;"></div>
-    </div>`;
-
-    homeScreen.insertAdjacentHTML('afterbegin', html);
-    
-    // 启动时钟
-    setInterval(() => {
-        const now = new Date();
-        const h = String(now.getHours()).padStart(2,'0');
-        const m = String(now.getMinutes()).padStart(2,'0');
-        const mStr = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'][now.getMonth()];
-        const dStr = ['周日','周一','周二','周三','周四','周五','周六'][now.getDay()];
-        
-        const tEl = document.getElementById('iosTime');
-        const dEl = document.getElementById('iosDate');
-        if(tEl) tEl.innerText = `${h}:${m}`;
-        if(dEl) dEl.innerText = `${now.getMonth()+1}月${now.getDate()}日 ${dStr}`;
-    }, 1000);
-}
-
-// 页面加载完成后执行
-window.addEventListener('load', () => {
-    setTimeout(initIOSDesktopV3, 100);
-});
-</script>
 </body>
 </html>
 
