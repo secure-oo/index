@@ -46,7 +46,7 @@
             }
 
             const data = await res.json();
-            const file = data.files['health.json'];
+            const file = data.files["health.json"] || Object.values(data.files).find(f => f.filename.endsWith(".json"));
             if (!file) {
                 setStatus('❌ Gist 里找不到 health.json 文件');
                 return null;
