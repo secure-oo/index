@@ -1,0 +1,13 @@
+{
+    "display_name": "🍎 健康数据注入",
+    "name": "st-health",
+    "version": "1.0.0",
+    "description": "从 Apple Health 读取健康数据并自动注入到系统提示词",
+    "author": "secure-oo",
+    "homePage": "",
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "css": "style.css",
+    "auto_update": true
+}

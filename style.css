@@ -1,0 +1,69 @@
+#st-health-panel {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#st-health-panel h4 {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+}
+
+#st-health-panel label {
+    font-size: 13px;
+    opacity: 0.8;
+    display: block;
+    margin-bottom: 3px;
+}
+
+#st-health-panel input[type="text"],
+#st-health-panel input[type="password"] {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.07);
+    color: inherit;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+#st-health-panel .sh-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+#st-health-panel button {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    background: #e06c75;
+    color: #fff;
+    white-space: nowrap;
+}
+
+#st-health-panel button.secondary {
+    background: rgba(255,255,255,0.1);
+    color: inherit;
+}
+
+#st-health-status {
+    font-size: 12px;
+    opacity: 0.7;
+    min-height: 18px;
+}
+
+#st-health-preview {
+    font-size: 12px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 6px;
+    padding: 8px;
+    white-space: pre-wrap;
+    max-height: 120px;
+    overflow-y: auto;
+    display: none;
+}
