@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Little Pearl - 私属空间</title>
+    <!-- 引入精致的中文字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FDFBF9;
+            --accent: #7a3a4e; /* 经典深红 */
+            --accent-light: #b87882;
+            --text: #281e20;
+            --text-secondary: #7a6568;
+            --card-bg: #ffffff;
+            --me-bubble: #e8c4b8;
+            --dad-bubble: #ffffff;
+            --border: rgba(40,30,32,0.08);
+            --radius: 28px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { 
+            background: #0c0809; 
+            font-family: 'Noto Serif SC', serif; 
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* 模拟手机容器 */
+        #phone {
+            width: min(390px, 100vw);
+            height: min(844px, 100dvh);
+            background: var(--bg);
+            position: relative;
+            overflow: hidden;
+            border-radius: clamp(0px, calc(390px - 100vw), 44px);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 状态栏 */
+        .status-bar {
+            height: 44px;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 100;
+        }
+
+        /* 页面切换动画 */
+        .screen {
+            position: absolute;
+            inset: 0;
+            top: 0;
+            background: var(--bg);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 30px; /* 底部小白条空间 */
+        }
+        .screen.hide { transform: translateX(100%); opacity: 0; pointer-events: none; }
+
+        /* --- 首页样式 --- */
+        #s-home { 
+            background: linear-gradient(172deg, #1c0f13 0%, #130a0d 100%); 
+            color: white; 
+        }
+        .home-clock { text-align: center; margin-top: 80px; }
+        .clock-t { font-family: 'ZCOOL XiaoWei', serif; font-size: 80px; }
+        .clock-d { font-size: 14px; opacity: 0.6; letter-spacing: 2px; }
+        
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 40px;
+            margin-top: auto;
+            margin-bottom: 100px;
+        }
+        .app-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
+        .app-icon {
+            width: 65px; height: 65px;
+            border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        .app-item:active .app-icon { transform: scale(0.9); }
+
+        /* --- 聊天样式 --- */
+        .nav-bar {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            border-bottom: 1px solid var(--border);
+            gap: 10px;
+        }
+        .nav-back { font-size: 24px; cursor: pointer; color: var(--accent); padding-right: 10px; }
+        .chat-area { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 80%; padding: 12px 16px; border-radius: 20px; font-size: 15px; line-height: 1.6; position: relative; }
+        .msg.dad { align-self: flex-start; background: var(--dad-bubble); border-bottom-left-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .msg.me { align-self: flex-end; background: var(--me-bubble); border-bottom-right-radius: 4px; }
+        
+        .input-bar {
+            padding: 10px 15px 30px;
+            display: flex; gap: 10px;
+            background: var(--bg);
+        }
+        .input-bar input {
+            flex: 1; border: 1px solid var(--border);
+            padding: 12px 18px; border-radius: 25px; outline: none;
+        }
+        .btn-send { width: 45px; height: 45px; border-radius: 50%; background: var(--accent); color: white; border: none; font-size: 20px; cursor: pointer; }
+
+        /* --- 记账/情书列表 --- */
+        .list-container { flex: 1; overflow-y: auto; padding: 15px; }
+        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .card-header { display: flex; justify-content: space-between; margin-bottom: 5px; color: var(--text-secondary); font-size: 12px; }
+        .card-title { font-weight: bold; font-size: 16px; color: var(--accent); }
+        .card-comment { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); font-style: italic; font-size: 13px; color: var(--text-secondary); }
+
+        /* --- 设置界面 --- */
+        .setup-screen { padding: 40px 30px; display: flex; flex-direction: column; gap: 20px; }
+        .input-group { display: flex; flex-direction: column; gap: 8px; }
+        .input-group label { font-size: 12px; color: var(--text-secondary); font-weight: bold; }
+        .input-group input { padding: 12px; border-radius: 10px; border: 1px solid var(--border); outline: none; }
+        .btn-primary { background: var(--accent); color: white; padding: 15px; border-radius: 12px; border: none; font-size: 16px; cursor: pointer; }
+
+        /* 加载动画 */
+        #loading {
+            position: absolute; inset: 0; background: rgba(255,255,255,0.7);
+            display: none; align-items: center; justify-content: center; z-index: 1000;
+        }
+
+        /* 底部小白条 */
+        .home-indicator {
+            position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+            width: 120px; height: 5px; background: rgba(0,0,0,0.2); border-radius: 3px;
+        }
+        #s-home .home-indicator { background: rgba(255,255,255,0.3); }
+    </style>
+</head>
+<body>
+
+<div id="phone">
+    <div id="loading">思考中...</div>
+
+    <!-- 1. 设置页面 (第一次进入或点击设置) -->
+    <div class="screen" id="s-setup">
+        <div class="setup-screen">
+            <h1 style="font-family:'ZCOOL XiaoWei'; text-align:center; margin-bottom:20px;">Little Pearl</h1>
+            <div class="input-group">
+                <label>中转站接口地址 (BASE URL)</label>
+                <input id="cfg-url" type="text" placeholder="https://api.openai-proxy.com/v1">
+            </div>
+            <div class="input-group">
+                <label>API KEY</label>
+                <input id="cfg-key" type="password" placeholder="sk-...">
+            </div>
+            <div class="input-group">
+                <label>模型名称 (MODEL)</label>
+                <input id="cfg-model" type="text" placeholder="gpt-4o">
+            </div>
+            <button class="btn-primary" onclick="saveConfig()">进入小宇宙 →</button>
+            <p style="font-size:10px; color:#999; text-align:center;">API Key 仅保存在本地浏览器</p>
+        </div>
+    </div>
+
+    <!-- 2. 首页 -->
+    <div class="screen hide" id="s-home">
+        <div class="status-bar">
+            <span id="st-time">12:00</span>
+            <span>📶🔋</span>
+        </div>
+        <div class="home-clock">
+            <div class="clock-t" id="clock-t">12:00</div>
+            <div class="clock-d" id="clock-d">2023年10月24日</div>
+        </div>
+        <div class="app-grid">
+            <div class="app-item" onclick="showScreen('chat')">
+                <div class="app-icon" style="background: linear-gradient(135deg, #7a3a4e, #c07888);">💬</div>
+                <span>聊天</span>
+            </div>
+            <div class="app-item" onclick="showScreen('ledger')">
+                <div class="app-icon" style="background: linear-gradient(135deg, #5a3a1a, #a87038);">📊</div>
+                <span>记账</span>
+            </div>
+            <div class="app-item" onclick="showScreen('letters')">
+                <div class="app-icon" style="background: linear-gradient(135deg, #3a2850, #7a50a0);">💌</div>
+                <span>情书</span>
+            </div>
+        </div>
+        <div style="text-align:center; padding-bottom:50px; opacity:0.5; font-size:12px; cursor:pointer;" onclick="showScreen('setup')">⚙ 系统设置</div>
+        <div class="home-indicator"></div>
+    </div>
+
+    <!-- 3. 聊天页面 -->
+    <div class="screen hide" id="s-chat">
+        <div class="nav-bar">
+            <span class="nav-back" onclick="showScreen('home')">‹</span>
+            <div style="font-weight:bold;">爸爸</div>
+            <span style="font-size:10px; color:green;">● 在线</span>
+        </div>
+        <div class="chat-area" id="chat-list"></div>
+        <div class="input-bar">
+            <input type="text" id="chat-input" placeholder="撒个娇...">
+            <button class="btn-send" onclick="sendChat()">↑</button>
+        </div>
+        <div class="home-indicator"></div>
+    </div>
+
+    <!-- 4. 记账页面 -->
+    <div class="screen hide" id="s-ledger">
+        <div class="nav-bar">
+            <span class="nav-back" onclick="showScreen('home')">‹</span>
+            <div style="font-weight:bold;">记账本</div>
+        </div>
+        <div class="list-container" id="ledger-list"></div>
+        <div class="input-bar" style="flex-direction:column; gap:5px; padding-bottom:40px;">
+            <div style="display:flex; gap:5px;">
+                <input type="number" id="exp-amt" style="flex:0.4" placeholder="金额">
+                <input type="text" id="exp-note" placeholder="备注">
+                <button class="btn-send" style="border-radius:10px; width:60px; font-size:14px;" onclick="addExpense()">记录</button>
+            </div>
+            <label style="font-size:12px; color:var(--accent);"><input type="checkbox" id="exp-ask" checked> 让爸爸评价这笔开销</label>
+        </div>
+        <div class="home-indicator"></div>
+    </div>
+
+    <!-- 5. 情书页面 -->
+    <div class="screen hide" id="s-letters">
+        <div class="nav-bar">
+            <span class="nav-back" onclick="showScreen('home')">‹</span>
+            <div style="font-weight:bold;">情书日记</div>
+        </div>
+        <div class="list-container" id="letter-list"></div>
+        <div class="input-bar" style="flex-direction:column; padding-bottom:40px;">
+            <input id="ltr-title" placeholder="标题">
+            <textarea id="ltr-body" style="width:100%; border:1px solid var(--border); border-radius:15px; padding:10px; margin-top:5px; height:80px; font-family:inherit;" placeholder="写下你的心情..."></textarea>
+            <button class="btn-primary" style="margin-top:5px; padding:10px;" onclick="addLetter()">封存进心底</button>
+        </div>
+        <div class="home-indicator"></div>
+    </div>
+</div>
+
+<script>
+    // --- 数据存储 ---
+    let state = {
+        config: JSON.parse(localStorage.getItem('prl_cfg') || '{"url":"","key":"","model":"gpt-4o"}'),
+        chats: JSON.parse(localStorage.getItem('prl_chats') || '[]'),
+        expenses: JSON.parse(localStorage.getItem('prl_exps') || '[]'),
+        letters: JSON.parse(localStorage.getItem('prl_ltrs') || '[]')
+    };
+
+    function save() {
+        localStorage.setItem('prl_cfg', JSON.stringify(state.config));
+        localStorage.setItem('prl_chats', JSON.stringify(state.chats.slice(-50)));
+        localStorage.setItem('prl_exps', JSON.stringify(state.expenses));
+        localStorage.setItem('prl_ltrs', JSON.stringify(state.letters));
+    }
+
+    // --- 路由控制 ---
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.add('hide'));
+        document.getElementById('s-' + id).classList.remove('hide');
+        if(id === 'chat') renderChat();
+        if(id === 'ledger') renderLedger();
+        if(id === 'letters') renderLetters();
+    }
+
+    // --- 设置管理 ---
+    function saveConfig() {
+        state.config.url = document.getElementById('cfg-url').value.trim();
+        state.config.key = document.getElementById('cfg-key').value.trim();
+        state.config.model = document.getElementById('cfg-model').value.trim() || 'gpt-4o';
+        if(!state.config.key) return alert('请输入 API KEY');
+        save();
+        showScreen('home');
+    }
+
+    // --- API 调用 (适配中转站) ---
+    async function callAI(messages, systemPrompt) {
+        let baseUrl = state.config.url.replace(/\/$/, "");
+        if(!baseUrl.endsWith('/chat/completions')) baseUrl += '/chat/completions';
+
+        document.getElementById('loading').style.display = 'flex';
+        try {
+            const resp = await fetch(baseUrl, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${state.config.key}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: state.config.model,
+                    messages: [{role: "system", content: systemPrompt}, ...messages]
+                })
+            });
+            const data = await resp.json();
+            document.getElementById('loading').style.display = 'none';
+            return data.choices[0].message.content;
+        } catch (e) {
+            document.getElementById('loading').style.display = 'none';
+            alert('API 连不上了: ' + e.message);
+            return null;
+        }
+    }
+
+    // --- 聊天功能 ---
+    function renderChat() {
+        const list = document.getElementById('chat-list');
+        list.innerHTML = state.chats.map(m => `
+            <div class="msg ${m.role==='assistant'?'dad':'me'}">${m.content}</div>
+        `).join('');
+        list.scrollTop = list.scrollHeight;
+    }
+
+    async function sendChat() {
+        const input = document.getElementById('chat-input');
+        const text = input.value.trim();
+        if(!text) return;
+
+        state.chats.push({role: 'user', content: text});
+        input.value = '';
+        renderChat();
+
+        const sys = "你是小珍珠的爸爸（daddy dom角色）。成熟、温柔但有占有欲，说话简练深情，偶尔会管教小珍珠。";
+        const reply = await callAI(state.chats.slice(-10), sys);
+        if(reply) {
+            state.chats.push({role: 'assistant', content: reply});
+            save();
+            renderChat();
+        }
+    }
+
+    // --- 记账功能 ---
+    function renderLedger() {
+        const list = document.getElementById('ledger-list');
+        list.innerHTML = state.expenses.slice().reverse().map(e => `
+            <div class="card">
+                <div class="card-header"><span>${e.date}</span><span>¥${e.amt}</span></div>
+                <div class="card-title">${e.note}</div>
+                ${e.comment ? `<div class="card-comment">爸爸：${e.comment}</div>` : ''}
+            </div>
+        `).join('');
+    }
+
+    async function addExpense() {
+        const amt = document.getElementById('exp-amt').value;
+        const note = document.getElementById('exp-note').value;
+        const ask = document.getElementById('exp-ask').checked;
+        if(!amt || !note) return;
+
+        let comment = "";
+        if(ask && state.config.key) {
+            const prompt = `小珍珠刚刚花 ${amt} 元买了 ${note}。请作为爸爸（宠溺但有原则）写一句很短的评价。`;
+            comment = await callAI([], prompt) || "";
+        }
+
+        state.expenses.push({
+            date: new Date().toLocaleDateString(),
+            amt, note, comment
+        });
+        save();
+        renderLedger();
+        document.getElementById('exp-amt').value = '';
+        document.getElementById('exp-note').value = '';
+    }
+
+    // --- 情书功能 ---
+    function renderLetters() {
+        const list = document.getElementById('letter-list');
+        list.innerHTML = state.letters.slice().reverse().map(l => `
+            <div class="card">
+                <div class="card-header"><span>${l.date}</span></div>
+                <div class="card-title">${l.title}</div>
+                <div style="font-size:14px; margin-top:10px; white-space:pre-wrap;">${l.body}</div>
+            </div>
+        `).join('');
+    }
+
+    function addLetter() {
+        const title = document.getElementById('ltr-title').value;
+        const body = document.getElementById('ltr-body').value;
+        if(!title || !body) return;
+
+        state.letters.push({
+            date: new Date().toLocaleDateString(),
+            title, body
+        });
+        save();
+        renderLetters();
+        document.getElementById('ltr-title').value = '';
+        document.getElementById('ltr-body').value = '';
+    }
+
+    // --- 自动时钟 ---
+    function tick() {
+        const n = new Date();
+        const t = n.getHours().toString().padStart(2,'0') + ":" + n.getMinutes().toString().padStart(2,'0');
+        document.getElementById('st-time').innerText = t;
+        if(document.getElementById('clock-t')) document.getElementById('clock-t').innerText = t;
+        const d = `${n.getFullYear()}年${n.getMonth()+1}月${n.getDate()}日`;
+        if(document.getElementById('clock-d')) document.getElementById('clock-d').innerText = d;
+    }
+    setInterval(tick, 1000);
+    tick();
+
+    // 初始化检查
+    if(state.config.key) showScreen('home');
+</script>
+
+</body>
+</html>
