@@ -1,0 +1,250 @@
+/* 珍珠棋盘 · style.css · v4.0  chess- 前缀，不与珍珠湾冲突 */
+
+#chess-win button,#chess-win button:focus,#chess-win button:active{
+  -webkit-appearance:none!important;appearance:none!important;outline:none!important;
+}
+
+/* ── 主窗口 ── */
+#chess-win{
+  position:fixed;top:56px;right:12px;width:316px;
+  max-width:94vw;max-height:92vh;z-index:99998;
+  background:#faf7f3;border-radius:18px;
+  box-shadow:0 10px 44px rgba(0,0,0,.20),0 2px 10px rgba(0,0,0,.08);
+  font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB',sans-serif;
+  display:none;flex-direction:column;overflow:hidden;color:#4a3a30;
+  opacity:0;transform:translateY(-8px) scale(.97);
+  transition:opacity .2s ease,transform .22s cubic-bezier(.34,1.2,.64,1),border-radius .2s;
+}
+#chess-win.chess-visible{opacity:1;transform:translateY(0) scale(1);}
+
+/* ── 顶栏 ── */
+#chess-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 10px 9px 14px;background:#f0e8e0;
+  border-bottom:1px solid #e4d8cc;border-radius:18px 18px 0 0;
+  flex-shrink:0;cursor:grab;user-select:none;touch-action:none;-webkit-user-select:none;
+  transition:border-radius .2s;
+}
+#chess-bar:active{cursor:grabbing;}
+#chess-bar-title{font-size:14px;font-weight:700;color:#6a5a50;letter-spacing:.04em;pointer-events:none;}
+#chess-bar-right{display:flex;align-items:center;gap:5px;}
+
+.chess-ctrl{
+  width:28px;height:28px;border-radius:50%;border:none;
+  background:#e0d4c8!important;color:#7a6a60!important;
+  font-size:14px;font-weight:400;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:background .15s;padding:0;line-height:1;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;box-shadow:none!important;
+}
+.chess-ctrl:hover{background:#c8bab0!important;}
+@media(pointer:coarse){.chess-ctrl{width:34px;height:34px;font-size:16px;}}
+
+/* ── 主体 ── */
+#chess-body{
+  display:flex;flex-direction:column;flex:1;min-height:0;
+  overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+  padding:12px 12px 14px;gap:8px;
+}
+#chess-body::-webkit-scrollbar{width:3px;}
+#chess-body::-webkit-scrollbar-thumb{background:#d8ccc0;border-radius:2px;}
+
+/* ── 棋盘 ── */
+#chess-board-wrap{display:flex;justify-content:center;}
+#chess-board{
+  display:grid;grid-template-columns:repeat(8,36px);grid-template-rows:repeat(8,36px);
+  border-radius:10px;overflow:hidden;
+  box-shadow:0 4px 20px rgba(140,100,80,.18),0 1px 6px rgba(140,100,80,.12);
+  border:2px solid #d8ccc0;flex-shrink:0;
+}
+.chess-cell{
+  width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+  position:relative;transition:background .12s;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.chess-piece{
+  font-size:26px;line-height:1;display:block;
+  transition:filter .12s,transform .12s;user-select:none;-webkit-user-select:none;
+}
+.chess-cell.chess-sel .chess-piece{transform:scale(1.12);}
+
+/* 走法提示点 */
+.chess-dot{
+  width:11px;height:11px;border-radius:50%;
+  background:rgba(120,160,100,.52);pointer-events:none;
+  position:absolute;
+}
+/* 吃子提示圆环 */
+.chess-cap-ring{
+  position:absolute;inset:2px;border-radius:50%;
+  border:3px solid rgba(196,144,138,.60);pointer-events:none;
+}
+
+/* 坐标标签 */
+.chess-lbl{position:absolute;font-size:8px;font-family:'SF Mono','Menlo',monospace;opacity:.6;pointer-events:none;line-height:1;}
+.chess-rank{top:2px;left:2px;}
+.chess-file{bottom:2px;right:2px;}
+
+/* ── 主面板折叠条 ── */
+#chess-panel-toggle{
+  width:100%!important;background:transparent!important;border:none!important;
+  border-radius:0!important;padding:4px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  gap:5px!important;cursor:pointer!important;box-shadow:none!important;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+#chess-panel-arrow{font-size:10px;color:#b0a098;transition:transform .2s;pointer-events:none;}
+#chess-panel-toggle-label{font-size:10px;color:#b0a098;letter-spacing:.08em;pointer-events:none;}
+#chess-panel-toggle:hover #chess-panel-arrow,
+#chess-panel-toggle:hover #chess-panel-toggle-label{color:#8a7a70;}
+
+/* ── 次级折叠条（记录 & 复盘，默认收起） ── */
+#chess-extra-toggle{
+  width:100%!important;background:transparent!important;border:none!important;
+  border-top:1px dashed #e4d8cc!important;border-radius:0!important;
+  padding:6px 4px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  gap:5px!important;cursor:pointer!important;box-shadow:none!important;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+#chess-extra-arrow{font-size:10px;color:#b0a098;transition:transform .2s;pointer-events:none;}
+#chess-extra-label{font-size:10px;color:#b0a098;letter-spacing:.08em;pointer-events:none;}
+#chess-extra-toggle:hover #chess-extra-arrow,
+#chess-extra-toggle:hover #chess-extra-label{color:#8a7a70;}
+
+/* ── 可折叠面板 ── */
+#chess-panel{display:flex;flex-direction:column;gap:8px;}
+#chess-extra{display:flex;flex-direction:column;gap:8px;}
+
+/* ── 颜色选择行 ── */
+#chess-color-row{
+  display:flex;align-items:center;justify-content:space-between;
+  background:#fff;border-radius:11px;padding:8px 12px;
+  border:1.5px solid #e4d8cc;box-shadow:0 1px 5px rgba(160,130,110,.06);
+}
+#chess-color-btns{display:flex;gap:6px;}
+.chess-color-btn{
+  background:#f5f0ea!important;border:1.5px solid #e4d8cc!important;
+  border-radius:8px!important;padding:4px 11px!important;
+  font-size:11px!important;color:#9a8878!important;cursor:pointer!important;
+  transition:background .15s,border-color .15s,color .15s!important;
+  box-shadow:none!important;letter-spacing:.02em!important;
+  -webkit-tap-highlight-color:transparent;
+}
+.chess-color-btn.chess-color-active{
+  background:#eaf2e4!important;border-color:#9aab89!important;
+  color:#557a48!important;font-weight:600!important;
+}
+.chess-color-btn:hover:not(.chess-color-active){background:#ece6de!important;border-color:#d0c0b4!important;}
+
+/* ── 你刚才走了 ── */
+#chess-mv-row{
+  display:flex;align-items:center;justify-content:space-between;
+  background:#fff;border-radius:11px;padding:9px 12px;
+  border:1.5px solid #e4d8cc;box-shadow:0 1px 5px rgba(160,130,110,.06);
+}
+#chess-mv-left{display:flex;flex-direction:column;gap:1px;}
+.chess-mv-label{font-size:10px;color:#9a8878;letter-spacing:.05em;}
+#chess-my-move{
+  font-size:19px;font-family:'SF Mono','Menlo','Courier New',monospace;
+  font-weight:600;color:#c4908a;letter-spacing:.1em;
+}
+
+/* ── 统一按钮颜色（发送/应用/发送到对话/还原） ── */
+#chess-send-my-btn,#chess-apply-btn,#chess-send-btn,#chess-replay-btn{
+  background:#f0e0dc!important;border:none!important;color:#c4908a!important;
+  cursor:pointer!important;font-weight:500!important;
+  transition:background .15s!important;box-shadow:none!important;
+  white-space:nowrap!important;-webkit-tap-highlight-color:transparent;
+}
+#chess-send-my-btn:hover,#chess-apply-btn:hover,#chess-send-btn:hover,#chess-replay-btn:hover{background:#e4d0cc!important;}
+#chess-send-my-btn:active,#chess-apply-btn:active,#chess-send-btn:active,#chess-replay-btn:active{background:#d8c4be!important;}
+
+#chess-send-my-btn{border-radius:9px!important;padding:6px 13px!important;font-size:11px!important;letter-spacing:.04em!important;line-height:1.4!important;}
+#chess-apply-btn{border-radius:9px!important;padding:7px 13px!important;font-size:11px!important;letter-spacing:.04em!important;line-height:1.4!important;}
+#chess-send-btn{border-radius:8px!important;padding:4px 10px!important;font-size:10px!important;letter-spacing:.04em!important;line-height:1.4!important;}
+#chess-replay-btn{border-radius:10px!important;padding:8px!important;font-size:11px!important;letter-spacing:.06em!important;width:100%!important;text-align:center!important;}
+
+/* ── 输入爸爸棋步 ── */
+#chess-input-sec{
+  background:#fff;border-radius:11px;padding:10px 12px;
+  border:1.5px solid #e4d8cc;box-shadow:0 1px 5px rgba(160,130,110,.06);
+  display:flex;flex-direction:column;gap:7px;
+}
+.chess-sec-label{font-size:10px;font-weight:700;color:#9a8878;letter-spacing:.07em;text-transform:uppercase;}
+#chess-input-row{display:flex;gap:7px;align-items:center;}
+#chess-input{
+  flex:1;background:#f5f0ea!important;border:1.5px solid #e4d8cc!important;
+  border-radius:9px!important;padding:7px 11px!important;
+  font-size:15px!important;font-family:'SF Mono','Menlo','Courier New',monospace!important;
+  color:#4a3a30!important;outline:none!important;letter-spacing:.1em!important;
+  transition:border-color .15s!important;min-width:0;box-shadow:none!important;
+}
+#chess-input:focus{border-color:#9aab89!important;background:#fff!important;}
+#chess-input::placeholder{color:#c8b8a8!important;}
+#chess-err{font-size:10px;color:#c4908a;min-height:13px;letter-spacing:.02em;margin-top:-2px;}
+
+/* ── 棋步记录 ── */
+#chess-log-sec{
+  background:#fff;border-radius:11px;padding:10px 12px;
+  border:1.5px solid #e4d8cc;box-shadow:0 1px 5px rgba(160,130,110,.06);
+  display:flex;flex-direction:column;gap:7px;
+}
+#chess-log-header{display:flex;align-items:center;justify-content:space-between;}
+#chess-log{
+  max-height:110px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;
+  -webkit-overflow-scrolling:touch;
+}
+#chess-log::-webkit-scrollbar{width:2px;}
+#chess-log::-webkit-scrollbar-thumb{background:#d8ccc0;border-radius:2px;}
+.chess-log-row{
+  display:flex;gap:6px;align-items:center;
+}
+.chess-log-who{font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0;}
+.chess-log-text{font-size:11px;color:#6a5a50;line-height:1.5;flex:1;}
+
+/* 每条记录的删除按钮 */
+.chess-log-del{
+  flex-shrink:0;margin-left:2px;
+  background:transparent!important;border:none!important;box-shadow:none!important;
+  color:#d0bab4!important;cursor:pointer!important;
+  font-size:9px!important;padding:2px 5px!important;border-radius:4px!important;
+  line-height:1;-webkit-tap-highlight-color:transparent;
+  transition:color .12s,background .12s!important;
+}
+.chess-log-del:hover{color:#c4908a!important;background:#faedea!important;}
+
+/* ── 复盘 ── */
+#chess-replay-sec{
+  background:#fff;border-radius:11px;padding:10px 12px;
+  border:1.5px solid #e4d8cc;box-shadow:0 1px 5px rgba(160,130,110,.06);
+  display:flex;flex-direction:column;gap:7px;
+}
+#chess-replay-input{
+  width:100%;box-sizing:border-box;
+  background:#f5f0ea!important;border:1.5px solid #e4d8cc!important;
+  border-radius:9px!important;padding:8px 11px!important;
+  font-size:12px!important;font-family:'SF Mono','Menlo','Courier New',monospace!important;
+  color:#4a3a30!important;outline:none!important;resize:vertical;
+  min-height:60px;max-height:120px;line-height:1.6;
+  transition:border-color .15s!important;box-shadow:none!important;
+}
+#chess-replay-input:focus{border-color:#9aab89!important;background:#fff!important;}
+#chess-replay-input::placeholder{color:#c8b8a8!important;font-family:-apple-system,sans-serif!important;font-size:11px!important;}
+#chess-replay-err{font-size:10px;color:#c4908a;min-height:13px;letter-spacing:.02em;margin-top:-2px;}
+
+/* ── 重置 ── */
+#chess-reset-btn{
+  background:transparent!important;border:1.5px solid #d8ccc0!important;
+  border-radius:10px!important;padding:7px!important;font-size:11px!important;
+  color:#9a8878!important;cursor:pointer!important;letter-spacing:.08em!important;
+  width:100%!important;text-align:center!important;
+  transition:border-color .15s,color .15s!important;box-shadow:none!important;
+  -webkit-tap-highlight-color:transparent;
+}
+#chess-reset-btn:hover{border-color:#c4908a!important;color:#c4908a!important;}
+
+/* ── 悬浮球 ── */
+#chess-float-btn:hover{box-shadow:0 6px 22px rgba(0,0,0,.35)!important;}
+#chess-float-btn:active{cursor:grabbing!important;transform:scale(.96) translateZ(0)!important;}
