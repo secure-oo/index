@@ -1,0 +1,12 @@
+{
+  "display_name": "珍珠棋盘",
+  "loading_order": 11,
+  "requires": [],
+  "optional": [],
+  "js": "index.js",
+  "css": "style.css",
+  "author": "daddy & 小珍珠",
+  "version": "1.0.0",
+  "homePage": "",
+  "auto_update": false
+}
